@@ -1,9 +1,15 @@
 import { context } from './context.js'
 import { canvas } from './canvas.js'
+import { BaseObject } from './base-object.js'
 
-export class Bullet {
+export class Bullet extends BaseObject {
 
   constructor(scene, position, speed, color, enemy, damage) {
+    super({
+      scene,
+      position,
+      size: { width: damage, height: 3 },
+    })
     this.scene = scene
     this.position = position
     this.speed = speed

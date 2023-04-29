@@ -1,15 +1,18 @@
+import { BaseObject } from './base-object.js';
 import { Bullet } from './bullet.js';
 import { context } from './context.js';
-export class Rect {
+export class Rect extends BaseObject {
   static maxHp = 100
   constructor(scene, position, keyboardStatus, color, direction, damage, shootSpeed) {
-    this.scene = scene
-    this.position = position
+    super({
+      scene,
+      position,
+      size: { width: 100, height: 100 },
+      direction
+    })
     this.keyboardStatus = keyboardStatus
     this.color = color
     this.speed = { x: 10, y: 10 }
-    this.size = { width: 100, height: 100 }
-    this.direction = direction
     this.cooldown = 0
     this.hp = 100
     this.damage = damage
