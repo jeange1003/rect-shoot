@@ -1,6 +1,7 @@
 import { Bullet } from './bullet.js';
 import { context } from './context.js';
 export class Rect {
+  static maxHp = 100
   constructor(scene, position, keyboardStatus, color, direction) {
     this.scene = scene
     this.position = position
@@ -10,6 +11,7 @@ export class Rect {
     this.size = { width: 100, height: 100 }
     this.direction = direction
     this.cooldown = 0
+    this.hp = 100
   }
   update() {
     if (this.keyboardStatus.isLeftPressed) {
@@ -30,15 +32,11 @@ export class Rect {
       this.fire()
       this.cooldown = 60
     }
-    this.draw()
+    this.render()
   }
-  draw() {
-    context.beginPath();
-    context.lineWidth = 0;
-    context.strokeStyle = 'red';
-    context.fillStyle = this.color;
-    context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2, this.size.width, this.size.height);
-    context.fill();
+  render() {
+    this.renderSelf()
+    this.renderHp()
   }
   fire() {
     const bullet = new Bullet(this.scene,
@@ -48,7 +46,36 @@ export class Rect {
       }, {
       x: this.direction.x * 10,
       y: this.direction.y * 10
-    }, this.color)
+    }, this.color, this.enemy)
     this.scene.addObject(bullet)
+  }
+  renderSelf() {
+    context.beginPath();
+    context.lineWidth = 0;
+    context.strokeStyle = 'red';
+    context.fillStyle = this.color;
+    context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2, this.size.width, this.size.height);
+    context.fill();
+  }
+  renderHp() {
+    context.beginPath();
+    context.lineWidth = 0;
+    context.strokeStyle = 'green';
+    context.fillStyle = this.color;
+    context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2 - 15, this.size.width * (this.hp / Rect.maxHp), 5);
+    context.fill();
+  }
+  setEnemy(enemy) {
+    this.enemy = enemy
+  }
+  hurt(damage) {
+    this.hp -= damage
+    if (this.hp <= 0) {
+      // this.scene.removeObject(this)
+      this.isDead = true
+    }
+  }
+  destroy() {
+
   }
 }
