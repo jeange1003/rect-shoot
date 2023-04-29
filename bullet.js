@@ -3,14 +3,14 @@ import { canvas } from './canvas.js'
 
 export class Bullet {
 
-  static damage = 20
-  constructor(scene, position, speed, color, enemy) {
+  constructor(scene, position, speed, color, enemy, damage) {
     this.scene = scene
     this.position = position
     this.speed = speed
-    this.size = { width: 10, height: 3 }
+    this.size = { width: damage, height: 3 }
     this.color = color
     this.enemy = enemy
+    this.damage = damage
   }
   update() {
     this.position.x += this.speed.x
@@ -36,7 +36,7 @@ export class Bullet {
       && this.position.y > this.enemy.position.y - this.enemy.size.height
       && this.position.y < this.enemy.position.y + this.enemy.size.height) {
       console.log('checkCollision')
-      this.enemy.hurt(Bullet.damage)
+      this.enemy.hurt(this.damage)
       // this.scene.removeObject(this)
       this.isDead = true
     }

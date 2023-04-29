@@ -2,7 +2,7 @@ import { Bullet } from './bullet.js';
 import { context } from './context.js';
 export class Rect {
   static maxHp = 100
-  constructor(scene, position, keyboardStatus, color, direction) {
+  constructor(scene, position, keyboardStatus, color, direction, damage, shootSpeed) {
     this.scene = scene
     this.position = position
     this.keyboardStatus = keyboardStatus
@@ -12,25 +12,35 @@ export class Rect {
     this.direction = direction
     this.cooldown = 0
     this.hp = 100
+    this.damage = damage
+    this.shootSpeed = shootSpeed
   }
   update() {
     if (this.keyboardStatus.isLeftPressed) {
-      this.position.x -= this.speed.x
+      if (this.position.x - this.size.width / 2 > 0) {
+        this.position.x -= this.speed.x
+      }
     } else if (this.keyboardStatus.isRightPressed) {
-      this.position.x += this.speed.x
+      if (this.position.x + this.size.width / 2 < canvas.width) {
+        this.position.x += this.speed.x
+      }
     }
 
     if (this.keyboardStatus.isUpPressed) {
-      this.position.y -= this.speed.y
+      if (this.position.y - this.size.height / 2 > 0) {
+        this.position.y -= this.speed.y
+      }
     } else if (this.keyboardStatus.isDownPressed) {
-      this.position.y += this.speed.y
+      if (this.position.y + this.size.height / 2 < canvas.height) {
+        this.position.y += this.speed.y
+      }
     }
     if (this.cooldown > 0) {
       this.cooldown--
     }
     if (this.keyboardStatus.isFirePressed && this.cooldown === 0) {
       this.fire()
-      this.cooldown = 60
+      this.cooldown = 60 / this.shootSpeed
     }
     this.render()
   }
@@ -44,9 +54,9 @@ export class Rect {
         x: this.position.x + this.direction.x * this.size.width + this.direction.x * 20,
         y: this.position.y + this.direction.y * this.size.height + this.direction.y * 20
       }, {
-      x: this.direction.x * 10,
-      y: this.direction.y * 10
-    }, this.color, this.enemy)
+      x: this.direction.x * 15,
+      y: this.direction.y * 15
+    }, this.color, this.enemy, this.damage)
     this.scene.addObject(bullet)
   }
   renderSelf() {
