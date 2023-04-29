@@ -32,7 +32,23 @@ export class KeyboardStatus {
   get isRightPressed() {
     return this.pressedKeys.includes(this.keys.right)
   }
+
+  get isFirePressed() {
+    return this.pressedKeys.includes(this.keys.fire)
+  }
 }
 
-export const keyboardStatus1 = new KeyboardStatus({ up: 'w', down: 's', left: 'a', right: 'd' })
-export const keyboardStatus2 = new KeyboardStatus({ up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' })
+export const keyboardStatus1 = new KeyboardStatus({
+  up: 'w',
+  down: 's',
+  left: 'a',
+  right: 'd',
+  fire: 'f'
+})
+export const keyboardStatus2 = new KeyboardStatus({
+  up: 'ArrowUp',
+  down: 'ArrowDown',
+  left: 'ArrowLeft',
+  right: 'ArrowRight',
+  fire: 'm'
+})
