@@ -1,6 +1,3 @@
-import { Rect } from './rect.js'
-import { keyboardStatus2, keyboardStatus1 } from './keyboard-status.js'
-import { Position } from './position.js'
 import { canvas } from './canvas.js'
 import { context } from './context.js'
 
@@ -9,14 +6,6 @@ export class Scene {
 
   running = true
 
-  constructor() {
-    this.rect1 = new Rect(this, new Position(100, canvas.height / 2), keyboardStatus1, 'gray', { x: 1, y: 0 }, 20, 2)
-    this.rect2 = new Rect(this, new Position(canvas.width - 100, canvas.height / 2), keyboardStatus2, 'blue', { x: -1, y: 0 }, 40, 1)
-    this.rect1.setEnemy(this.rect2)
-    this.rect2.setEnemy(this.rect1)
-
-    this.objects.push(this.rect1, this.rect2)
-  }
   render() {
     if (!this.running) {
       return
