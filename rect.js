@@ -1,9 +1,11 @@
+import { AttributeType } from './attribute-type.js';
 import { BaseObject } from './base-object.js';
 import { Bullet } from './bullet.js';
 import { context } from './context.js';
 import { Position } from './position.js';
 export class Rect extends BaseObject {
   static maxHp = 100
+  effects = []
   constructor(scene, position, keyboardStatus, color, direction, damage, shootSpeed, restrictToArea) {
     super({
       scene,
@@ -19,6 +21,44 @@ export class Rect extends BaseObject {
     this.damage = damage
     this.shootSpeed = shootSpeed
     this.restrictToArea = restrictToArea
+  }
+  get speed() {
+    return this.applyEffect(AttributeType.Speed, this._speed)
+    // if (this.effects.length) {
+    //   let speed = this._speed
+    //   for (let effect of effects) {
+    //     speed = effect.applyEffect(AttributeType.Speed, speed)
+    //   }
+    //   return speed
+    // }
+    // return this._speed
+  }
+  set speed(value) {
+    this._speed = value
+  }
+  get damage() {
+    return this.applyEffect(AttributeType.Damage, this._damage)
+    // return this._damage
+  }
+  set damage(value) {
+    this._damage = value
+  }
+  get shootSpeed() {
+    return this.applyEffect(AttributeType.ShootSpeed, this._shootSpeed)
+    // return this._shootSpeed
+  }
+  set shootSpeed(value) {
+    this._shootSpeed = value
+  }
+  applyEffect(attributeType, attribute) {
+    if (this.effects.length) {
+      let _attribute = attribute
+      for (let effect of effects) {
+        _attribute = effect.applyEffect(attributeType, attribute)
+      }
+      return _attribute
+    }
+    return attribute
   }
   update() {
     const newPosition = { ...this.position }
