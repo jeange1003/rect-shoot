@@ -4,6 +4,7 @@ import { Position } from './position.js'
 import { keyboardStatus1, keyboardStatus2 } from './keyboard-status.js'
 import { canvas } from './canvas.js'
 import { Area } from './area.js'
+import { RewardManager } from './reward-manager.js'
 
 const scene = new Scene()
 
@@ -17,5 +18,7 @@ rect2.setEnemy(rect1)
 
 scene.addObject(rect1)
 scene.addObject(rect2)
+
+new RewardManager({ scene })
 
 scene.start()

@@ -5,4 +5,12 @@ export class BaseObject {
     this.size = params.size
     this.direction = params.direction
   }
+
+  update() {
+    throw new Error('To be implement')
+  }
+
+  render() {
+    throw new Error('To be implement')
+  }
 }
