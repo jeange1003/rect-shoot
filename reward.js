@@ -5,6 +5,7 @@ import { EnpowerEffect } from './effects/enpower-effect.js'
 import { FastShootEffect } from './effects/fast-shoot-effect.js'
 
 export class Reward extends BaseObject {
+  static EffectTime = 20 * 1000
   static RewardTypes = {
     SpeedUp: 'S',
     Enpower: 'P',
@@ -58,7 +59,7 @@ export class Reward extends BaseObject {
         rect.addEffect(this.effect)
         setTimeout(() => {
           rect.removeEffect(this.effect)
-        }, 10000)
+        }, Reward.EffectTime)
         this.rewardManager.removeReward(this)
         this.isDead = true
       }

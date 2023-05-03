@@ -1,5 +1,5 @@
 import { AttributeType } from "../attribute-type.js";
-import { RewardEffect } from "../reward-effect.js";
+import { RewardEffect } from "./reward-effect.js";
 
 export class EnpowerEffect extends RewardEffect {
   applyEffect(type, attribute) {

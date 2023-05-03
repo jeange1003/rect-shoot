@@ -4,24 +4,24 @@ import { Bullet } from './bullet.js';
 import { context } from './context.js';
 import { Position } from './position.js';
 export class Rect extends BaseObject {
-  static maxHp = 100
   effects = []
-  constructor(scene, position, keyboardStatus, color, direction, damage, shootSpeed, restrictToArea) {
+  constructor(params, scene, position, keyboardStatus, color, direction, damage, shootSpeed, restrictToArea) {
     super({
-      scene,
-      position,
-      size: { width: 100, height: 100 },
-      direction
+      scene: params.scene,
+      position: params.position,
+      size: params.size || { width: 100, height: 100 },
+      direction: params.direction
     })
-    this.keyboardStatus = keyboardStatus
-    this.color = color
-    this.speed = { x: 10, y: 10 }
+    this.keyboardStatus = params.keyboardStatus
+    this.color = params.color
+    this.speed = params.speed || { x: 10, y: 10 }
     this.cooldown = 0
-    this.hp = 100
-    this.damage = damage
-    this.shootSpeed = shootSpeed
-    this.restrictToArea = restrictToArea
-    this.enemys = []
+    this.hp = params.hp || 100
+    this.maxHp = params.maxHp || 100
+    this.damage = params.damage
+    this.shootSpeed = params.shootSpeed
+    this.restrictToArea = params.restrictToArea
+    this.enemys = params.enemys || []
   }
   get speed() {
     return this.applyEffect(AttributeType.Speed, this._speed)
@@ -61,7 +61,7 @@ export class Rect extends BaseObject {
     if (this.effects.length) {
       let _attribute = attribute
       for (let effect of this.effects) {
-        _attribute = effect.applyEffect(attributeType, attribute)
+        _attribute = effect.applyEffect(attributeType, _attribute)
       }
       return _attribute
     }
@@ -94,9 +94,9 @@ export class Rect extends BaseObject {
     if (this.cooldown > 0) {
       this.cooldown--
     }
-    if (this.keyboardStatus.isFirePressed && this.cooldown === 0) {
+    if (this.keyboardStatus.isFirePressed && this.cooldown <= 0) {
       this.fire()
-      this.cooldown = 60 / this.shootSpeed
+      this.cooldown = Math.floor(60 / this.shootSpeed)
     }
     this.render()
   }
@@ -128,13 +128,13 @@ export class Rect extends BaseObject {
     context.lineWidth = 0;
     context.strokeStyle = 'green';
     context.fillStyle = this.color;
-    context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2 - 15, this.size.width * (this.hp / Rect.maxHp), 5);
+    context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2 - 15, this.size.width * (this.hp / this.maxHp), 5);
     context.fill();
   }
   addEnemy(enemy) {
     this.enemys.push(enemy)
   }
-  removeEneny(enemy) {
+  removeEnemy(enemy) {
     this.enemys = this.enemys.filter(e => e !== enemy)
   }
   hurt(damage) {
@@ -142,6 +142,7 @@ export class Rect extends BaseObject {
     if (this.hp <= 0) {
       // this.scene.removeObject(this)
       this.isDead = true
+      this.enemys.forEach(e => e.removeEnemy(this))
     }
   }
   destroy() {

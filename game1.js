@@ -5,11 +5,12 @@ import { PlayerKeyboardStatus } from './keyboard/player-keyboard-status.js'
 import { canvas } from './canvas.js'
 import { Area } from './area.js'
 import { RewardManager } from './reward-manager.js'
-import { AiRectManager } from './ai-rect-manager.js'
 
 const scene = new Scene()
 
-const area1 = new Area({ x1: 0, x2: canvas.width, y1: 0, y2: canvas.height })
+const area1 = new Area({ x1: 0, x2: canvas.width / 3 * 2, y1: 0, y2: canvas.height })
+const area2 = new Area({ x1: canvas.width / 3, x2: canvas.width, y1: 0, y2: canvas.height })
+
 const keyboardStatus1 = new PlayerKeyboardStatus({
   up: 'w',
   down: 's',
@@ -29,9 +30,8 @@ const rect1 = new Rect({
   scene: scene,
   position: new Position(100, canvas.height / 3),
   direction: { x: 1, y: 0 },
-  size: { width: 40, height: 40 },
   keyboardStatus: keyboardStatus1,
-  color: 'blue',
+  color: 'gray',
   speed: { x: 10, y: 10 },
   hp: 100,
   damage: 20,
@@ -40,20 +40,19 @@ const rect1 = new Rect({
 })
 const rect2 = new Rect({
   scene: scene,
-  position: new Position(100, canvas.height / 3 * 2),
-  direction: { x: 1, y: 0 },
-  size: { width: 40, height: 40 },
+  position: new Position(canvas.width - 100, canvas.height / 2),
+  direction: { x: -1, y: 0 },
   keyboardStatus: keyboardStatus2,
-  color: 'red',
+  color: 'blue',
   speed: { x: 10, y: 10 },
   hp: 100,
-  damage: 20,
-  shootSpeed: 2,
-  restrictToArea: area1
+  damage: 40,
+  shootSpeed: 1,
+  restrictToArea: area2
 })
-// rect1.addEnemy(rect2)
-// rect2.addEnemy(rect1)
-const aiRectManager = new AiRectManager({ scene, playerRects: [rect1, rect2] })
+
+rect1.addEnemy(rect2)
+rect2.addEnemy(rect1)
 
 scene.addObject(rect1)
 scene.addObject(rect2)

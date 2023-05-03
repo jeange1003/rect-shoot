@@ -1,7 +1,9 @@
-export class KeyboardStatus {
+import { KeyboardStatus } from './keyboard-status.js'
+export class PlayerKeyboardStatus extends KeyboardStatus {
   pressedKeys = []
 
   constructor(keys) {
+    super()
     this.keys = keys
 
     document.addEventListener('keydown', (e) => {
@@ -34,21 +36,7 @@ export class KeyboardStatus {
   }
 
   get isFirePressed() {
-    return this.pressedKeys.includes(this.keys.fire)
+    return true //this.pressedKeys.includes(this.keys.fire)
   }
 }
 
-export const keyboardStatus1 = new KeyboardStatus({
-  up: 'w',
-  down: 's',
-  left: 'a',
-  right: 'd',
-  fire: 'f'
-})
-export const keyboardStatus2 = new KeyboardStatus({
-  up: 'ArrowUp',
-  down: 'ArrowDown',
-  left: 'ArrowLeft',
-  right: 'ArrowRight',
-  fire: 'm'
-})
