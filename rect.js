@@ -1,9 +1,10 @@
 import { BaseObject } from './base-object.js';
 import { Bullet } from './bullet.js';
 import { context } from './context.js';
+import { Position } from './position.js';
 export class Rect extends BaseObject {
   static maxHp = 100
-  constructor(scene, position, keyboardStatus, color, direction, damage, shootSpeed) {
+  constructor(scene, position, keyboardStatus, color, direction, damage, shootSpeed, restrictToArea) {
     super({
       scene,
       position,
@@ -17,26 +18,31 @@ export class Rect extends BaseObject {
     this.hp = 100
     this.damage = damage
     this.shootSpeed = shootSpeed
+    this.restrictToArea = restrictToArea
   }
   update() {
+    const newPosition = { ...this.position }
     if (this.keyboardStatus.isLeftPressed) {
-      if (this.position.x - this.size.width / 2 > 0) {
-        this.position.x -= this.speed.x
-      }
+      // if (this.position.x - this.size.width / 2 > 0) {
+      newPosition.x = this.position.x - this.speed.x
+      // }
     } else if (this.keyboardStatus.isRightPressed) {
-      if (this.position.x + this.size.width / 2 < canvas.width) {
-        this.position.x += this.speed.x
-      }
+      // if (this.position.x + this.size.width / 2 < canvas.width) {
+      newPosition.x = this.position.x + this.speed.x
+      // }
     }
 
     if (this.keyboardStatus.isUpPressed) {
-      if (this.position.y - this.size.height / 2 > 0) {
-        this.position.y -= this.speed.y
-      }
+      // if (this.position.y - this.size.height / 2 > 0) {
+      newPosition.y = this.position.y - this.speed.y
+      // }
     } else if (this.keyboardStatus.isDownPressed) {
-      if (this.position.y + this.size.height / 2 < canvas.height) {
-        this.position.y += this.speed.y
-      }
+      // if (this.position.y + this.size.height / 2 < canvas.height) {
+      newPosition.y = this.position.y + this.speed.y
+      // }
+    }
+    if (this.restrictToArea.isInArea(newPosition)) {
+      this.position = newPosition
     }
     if (this.cooldown > 0) {
       this.cooldown--
