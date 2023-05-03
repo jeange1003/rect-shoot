@@ -50,10 +50,16 @@ export class Rect extends BaseObject {
   set shootSpeed(value) {
     this._shootSpeed = value
   }
+  addEffect(effect) {
+    this.effects.push(effect)
+  }
+  removeEffect(effect) {
+    this.effects = this.effects.filter(e => e !== effect)
+  }
   applyEffect(attributeType, attribute) {
     if (this.effects.length) {
       let _attribute = attribute
-      for (let effect of effects) {
+      for (let effect of this.effects) {
         _attribute = effect.applyEffect(attributeType, attribute)
       }
       return _attribute

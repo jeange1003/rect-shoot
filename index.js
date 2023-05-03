@@ -19,6 +19,6 @@ rect2.setEnemy(rect1)
 scene.addObject(rect1)
 scene.addObject(rect2)
 
-new RewardManager({ scene })
+new RewardManager({ scene, rects: [rect1, rect2] })
 
 scene.start()

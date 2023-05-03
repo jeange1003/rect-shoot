@@ -6,6 +6,7 @@ export class RewardManager {
   static MaxCount = 3
   constructor(params) {
     this.scene = params.scene
+    this.rects = params.rects
 
     setInterval(() => {
       this.generateReward()
@@ -17,7 +18,9 @@ export class RewardManager {
       scene: this.scene,
       position: { x: Math.floor(Math.random() * canvas.width), y: Math.floor(Math.random() * canvas.height) },
       size: { width: 20, height: 20 },
-      direction: { x: 0, y: 0 }
+      direction: { x: 0, y: 0 },
+      rects: this.rects,
+      rewardManager: this
     })
     this.rewards.push(reward)
     this.scene.addObject(reward)
@@ -29,5 +32,8 @@ export class RewardManager {
         this.scene.removeObject(reward)
       }
     }
+  }
+  removeReward(reward) {
+    this.rewards = this.rewards.filter(r => r !== reward)
   }
 }
