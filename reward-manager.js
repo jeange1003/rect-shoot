@@ -11,7 +11,7 @@ export class RewardManager {
     setInterval(() => {
       this.generateReward()
       this.checkVolumn()
-    }, (1000));
+    }, (5000));
   }
   generateReward() {
     const reward = new Reward({

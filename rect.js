@@ -21,6 +21,7 @@ export class Rect extends BaseObject {
     this.damage = damage
     this.shootSpeed = shootSpeed
     this.restrictToArea = restrictToArea
+    this.enemys = []
   }
   get speed() {
     return this.applyEffect(AttributeType.Speed, this._speed)
@@ -111,7 +112,7 @@ export class Rect extends BaseObject {
       }, {
       x: this.direction.x * 15,
       y: this.direction.y * 15
-    }, this.color, this.enemy, this.damage)
+    }, this.color, this.enemys, this.damage)
     this.scene.addObject(bullet)
   }
   renderSelf() {
@@ -130,8 +131,11 @@ export class Rect extends BaseObject {
     context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2 - 15, this.size.width * (this.hp / Rect.maxHp), 5);
     context.fill();
   }
-  setEnemy(enemy) {
-    this.enemy = enemy
+  addEnemy(enemy) {
+    this.enemys.push(enemy)
+  }
+  removeEneny(enemy) {
+    this.enemys = this.enemys.filter(e => e !== enemy)
   }
   hurt(damage) {
     this.hp -= damage

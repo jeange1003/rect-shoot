@@ -8,11 +8,10 @@ import { RewardManager } from './reward-manager.js'
 
 const scene = new Scene()
 
-const area1 = new Area({ x1: 0, x2: canvas.width / 3 * 2, y1: 0, y2: canvas.height })
-const area2 = new Area({ x1: canvas.width / 3, x2: canvas.width, y1: 0, y2: canvas.height })
+const area1 = new Area({ x1: 0, x2: canvas.width, y1: 0, y2: canvas.height })
 
-const rect1 = new Rect(scene, new Position(100, canvas.height / 2), keyboardStatus1, 'gray', { x: 1, y: 0 }, 20, 2, area1)
-const rect2 = new Rect(scene, new Position(canvas.width - 100, canvas.height / 2), keyboardStatus2, 'blue', { x: -1, y: 0 }, 40, 1, area2)
+const rect1 = new Rect(scene, new Position(100, canvas.height / 3), keyboardStatus1, 'gray', { x: 1, y: 0 }, 20, 2, area1)
+const rect2 = new Rect(scene, new Position(100, canvas.height / 3 * 2), keyboardStatus2, 'blue', { x: 1, y: 0 }, 20, 2, area1)
 rect1.addEnemy(rect2)
 rect2.addEnemy(rect1)
 

@@ -4,18 +4,18 @@ import { BaseObject } from './base-object.js'
 
 export class Bullet extends BaseObject {
 
-  constructor(scene, position, speed, color, enemy, damage) {
+  constructor(scene, position, speed, color, enemys, damage) {
     super({
       scene,
       position,
-      size: { width: damage, height: 3 },
+      size: { width: damage, height: Math.floor(damage / 6) },
     })
     this.scene = scene
     this.position = position
     this.speed = speed
     this.size = { width: damage, height: 3 }
     this.color = color
-    this.enemy = enemy
+    this.enemys = enemys
     this.damage = damage
   }
   update() {
@@ -37,14 +37,16 @@ export class Bullet extends BaseObject {
     context.fill();
   }
   checkCollision() {
-    if (this.position.x > this.enemy.position.x - this.enemy.size.width
-      && this.position.x < this.enemy.position.x + this.enemy.size.width
-      && this.position.y > this.enemy.position.y - this.enemy.size.height
-      && this.position.y < this.enemy.position.y + this.enemy.size.height) {
-      console.log('checkCollision')
-      this.enemy.hurt(this.damage)
-      // this.scene.removeObject(this)
-      this.isDead = true
+    for (let enemy of this.enemys) {
+      if (this.position.x > enemy.position.x - enemy.size.width
+        && this.position.x < enemy.position.x + enemy.size.width
+        && this.position.y > enemy.position.y - enemy.size.height
+        && this.position.y < enemy.position.y + enemy.size.height) {
+        console.log('checkCollision')
+        enemy.hurt(this.damage)
+        // this.scene.removeObject(this)
+        this.isDead = true
+      }
     }
   }
 }
