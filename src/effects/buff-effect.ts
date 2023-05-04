@@ -1,8 +1,7 @@
-import { RewardEffect } from "./reward-effect.js";
+import { Attribute } from "../base-types/attribute";
+import { AttributeType } from "../base-types/attribute-type";
+import { BaseEffect } from "./base-effect";
 
-export abstract class BuffEffect extends RewardEffect {
-  constructor(reward: any) {
-    super(reward)
-  }
-  abstract applyEffect(type: any, attribute: any): void;
+export abstract class BuffEffect extends BaseEffect {
+  abstract applyEffect(type: AttributeType, attribute: Attribute): void;
 }

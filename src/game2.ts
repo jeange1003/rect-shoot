@@ -1,11 +1,12 @@
 import { Scene } from './scene.js'
 import { Rect } from './objects/rect'
-import { Position } from './position.js'
+import { Position } from './base-types/position'
 import { PlayerKeyboardStatus } from './keyboard/player-keyboard-status.js'
-import { canvas } from './canvas.js'
-import { Area } from './area.js'
+import { canvas } from './global/canvas'
+import { Area } from './base-types/area'
 import { RewardManager } from './managers/reward-manager'
 import { AiRectManager } from './managers/ai-rect-manager'
+import { Size } from './base-types/size'
 
 const scene = new Scene()
 
@@ -34,6 +35,7 @@ const rect1 = new Rect({
   color: 'blue',
   speed: { x: 5, y: 5 },
   hp: 100,
+  maxHp: 100,
   damage: 20,
   shootSpeed: 2,
   restrictToArea: area1
@@ -47,6 +49,7 @@ const rect2 = new Rect({
   color: 'red',
   speed: { x: 5, y: 5 },
   hp: 100,
+  maxHp: 100,
   damage: 20,
   shootSpeed: 2,
   restrictToArea: area1

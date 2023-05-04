@@ -1,15 +1,16 @@
 import { AiKeyboardStatus } from '../keyboard/ai-keyboard-status'
-import { canvas } from '../canvas'
-import { Area } from '../area'
+import { canvas } from '../global/canvas'
+import { Area } from '../base-types/area'
 import { Rect } from '../objects/rect'
-import { Position } from '../position'
+import { Position } from '../base-types/position'
 import { Manager } from './manager'
+import { Scene } from '../scene'
 
 export class AiRectManager extends Manager {
-  cooldown: any;
-  playerRects: any;
-  scene: any;
-  constructor(params: any) {
+  cooldown: number;
+  playerRects: Rect[];
+  scene: Scene;
+  constructor(params: { scene: Scene, playerRects: Rect[] }) {
     super()
     this.scene = params.scene
     this.playerRects = params.playerRects

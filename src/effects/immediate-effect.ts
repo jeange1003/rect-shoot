@@ -1,8 +1,6 @@
-import { RewardEffect } from "./reward-effect.js";
+import { Rect } from "../objects/rect.js";
+import { BaseEffect } from "./base-effect";
 
-export abstract class ImmediateEffect extends RewardEffect {
-  constructor(reward: any) {
-    super(reward)
-  }
-  abstract applyEffect(rect: any): void;
+export abstract class ImmediateEffect extends BaseEffect {
+  abstract applyEffect(rect: Rect): void;
 }

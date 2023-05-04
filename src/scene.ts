@@ -1,6 +1,6 @@
 import { BaseObject } from './objects/base-object'
-import { canvas } from './canvas.js'
-import { context } from './context.js'
+import { canvas } from './global/canvas'
+import { context } from './global/context.js'
 import { Manager } from './managers/manager.js'
 
 export class Scene {
@@ -45,15 +45,15 @@ export class Scene {
     this.running = false
   }
 
-  addObject(obj: any) {
+  addObject(obj: BaseObject) {
     this.objects.push(obj)
   }
 
-  removeObject(obj: any) {
+  removeObject(obj: BaseObject) {
     this.objects.splice(this.objects.indexOf(obj), 1)
   }
 
-  addManager(manager: any) {
+  addManager(manager: Manager) {
     this.managers.push(manager)
   }
 }

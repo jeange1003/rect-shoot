@@ -1,35 +1,57 @@
-import { AttributeType } from '../attribute-type';
+import { AttributeType } from '../base-types/attribute-type';
 import { BaseObject } from './base-object';
 import { Bullet } from './bullet';
-import { context } from '../context';
+import { context } from '../global/context';
 import { BuffEffect } from '../effects/buff-effect';
+import { Speed } from '../base-types/speed';
+import { KeyboardStatus } from '../keyboard/keyboard-status';
+import { Area } from '../base-types/area';
+import { Scene } from '../scene';
+import { Position } from '../base-types/position';
+import { Size } from '../base-types/size';
+import { Direction } from '../base-types/direction';
+import { Attribute } from '../base-types/attribute';
 
 export class Rect extends BaseObject {
-  _damage: any;
-  _shootSpeed: any;
-  _speed: any;
-  color: any;
-  cooldown: any;
-  enemys: any;
-  hp: any;
-  isDead: any;
-  keyboardStatus: any;
-  maxHp: any;
-  restrictToArea: any;
+  _damage!: number;
+  _shootSpeed!: number;
+  _speed!: Speed;
+  color: string;
+  cooldown: number;
+  enemys: Rect[];
+  hp: number;
+  isDead: boolean = false;
+  keyboardStatus: KeyboardStatus;
+  maxHp: number;
+  restrictToArea: Area;
   effects: BuffEffect[] = []
-  constructor(params: any) {
+  constructor(params: {
+    scene: Scene,
+    position: Position,
+    size: Size,
+    direction: Direction,
+    keyboardStatus: KeyboardStatus,
+    color: string,
+    speed: Speed,
+    hp: number,
+    maxHp: number,
+    damage: number,
+    shootSpeed: number,
+    restrictToArea: Area,
+    enemys?: Rect[]
+  }) {
     super({
       scene: params.scene,
       position: params.position,
-      size: params.size || { width: 100, height: 100 },
+      size: params.size,
       direction: params.direction
     })
     this.keyboardStatus = params.keyboardStatus
     this.color = params.color
-    this.speed = params.speed || { x: 10, y: 10 }
+    this.speed = params.speed
     this.cooldown = 0
-    this.hp = params.hp || 100
-    this.maxHp = params.maxHp || 100
+    this.hp = params.hp
+    this.maxHp = params.maxHp
     this.damage = params.damage
     this.shootSpeed = params.shootSpeed
     this.restrictToArea = params.restrictToArea
@@ -53,13 +75,13 @@ export class Rect extends BaseObject {
   set shootSpeed(value) {
     this._shootSpeed = value
   }
-  addEffect(effect: any) {
+  addEffect(effect: BuffEffect) {
     this.effects.push(effect)
   }
-  removeEffect(effect: any) {
+  removeEffect(effect: BuffEffect) {
     this.effects = this.effects.filter(e => e !== effect)
   }
-  applyEffect(attributeType: any, attribute: any) {
+  applyEffect(attributeType: AttributeType, attribute: Attribute) {
     if (this.effects.length) {
       let _attribute = attribute
       for (let effect of this.effects) {
@@ -99,14 +121,20 @@ export class Rect extends BaseObject {
     this.renderHp()
   }
   fire() {
-    const bullet = new Bullet(this.scene,
-      {
-        x: this.position.x + this.direction.x * this.size.width + this.direction.x * 20,
-        y: this.position.y + this.direction.y * this.size.height + this.direction.y * 20
-      }, {
-      x: this.direction.x * 15,
-      y: this.direction.y * 15
-    }, this.color, this.enemys, this.damage)
+    const bullet = new Bullet({
+      scene: this.scene,
+      position: new Position(
+        this.position.x + this.direction.x * this.size.width + this.direction.x * 20,
+        this.position.y + this.direction.y * this.size.height + this.direction.y * 20
+      ),
+      speed: new Speed(
+        this.direction.x * 15,
+        this.direction.y * 15
+      ),
+      color: this.color,
+      enemys: this.enemys,
+      damage: this.damage
+    })
     this.scene.addObject(bullet)
   }
   renderSelf() {
@@ -125,17 +153,17 @@ export class Rect extends BaseObject {
     context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2 - 15, this.size.width * (this.hp / this.maxHp), 5);
     context.fill();
   }
-  addEnemy(enemy: any) {
+  addEnemy(enemy: Rect) {
     this.enemys.push(enemy)
   }
-  removeEnemy(enemy: any) {
-    this.enemys = this.enemys.filter((e: any) => e !== enemy)
+  removeEnemy(enemy: Rect) {
+    this.enemys = this.enemys.filter((e: Rect) => e !== enemy)
   }
-  hurt(damage: any) {
+  hurt(damage: number) {
     this.hp -= damage
     if (this.hp <= 0) {
       this.isDead = true
-      this.enemys.forEach((e: any) => e.removeEnemy(this))
+      this.enemys.forEach((e: Rect) => e.removeEnemy(this))
     }
   }
 }

@@ -1,8 +1,8 @@
-import { AttributeType } from "../attribute-type.js";
+import { AttributeType } from "../base-types/attribute-type";
 import { BuffEffect } from "./buff-effect.js";
 
 export class FastShootEffect extends BuffEffect {
-  applyEffect(type: any, attribute: any) {
+  applyEffect(type: AttributeType, attribute: number) {
     switch (type) {
       case AttributeType.ShootSpeed:
         return attribute * 2

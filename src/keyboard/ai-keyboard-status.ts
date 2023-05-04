@@ -1,9 +1,9 @@
 import { KeyboardStatus } from './keyboard-status.js'
 export class AiKeyboardStatus extends KeyboardStatus {
-  fire: any;
-  horizen: any;
-  pressLength: any;
-  vertical: any;
+  fire: boolean = false;
+  horizen: string = '';
+  pressLength: number = 0;
+  vertical: string = '';
   constructor() {
     super()
     this.pressLength = Math.random() * 60 * 5

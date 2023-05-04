@@ -1,10 +1,13 @@
 import { Scene } from './scene.js'
 import { Rect } from './objects/rect'
-import { Position } from './position.js'
+import { Position } from './base-types/position'
 import { PlayerKeyboardStatus } from './keyboard/player-keyboard-status.js'
-import { canvas } from './canvas.js'
-import { Area } from './area.js'
+import { canvas } from './global/canvas'
+import { Area } from './base-types/area'
 import { RewardManager } from './managers/reward-manager'
+import { Direction } from './base-types/direction'
+import { Size } from './base-types/size'
+import { Speed } from './base-types/speed'
 
 const scene = new Scene()
 
@@ -29,11 +32,13 @@ const keyboardStatus2 = new PlayerKeyboardStatus({
 const rect1 = new Rect({
   scene: scene,
   position: new Position(100, canvas.height / 3),
-  direction: { x: 1, y: 0 },
+  direction: new Direction(1, 0),
   keyboardStatus: keyboardStatus1,
   color: 'gray',
-  speed: { x: 10, y: 10 },
+  speed: new Speed(10, 10),
+  size: new Size(100, 100),
   hp: 100,
+  maxHp: 100,
   damage: 20,
   shootSpeed: 2,
   restrictToArea: area1
@@ -41,11 +46,13 @@ const rect1 = new Rect({
 const rect2 = new Rect({
   scene: scene,
   position: new Position(canvas.width - 100, canvas.height / 2),
-  direction: { x: -1, y: 0 },
+  direction: new Direction(-1, 0),
   keyboardStatus: keyboardStatus2,
   color: 'blue',
-  speed: { x: 10, y: 10 },
+  speed: new Speed(10, 10),
+  size: new Size(100, 100),
   hp: 100,
+  maxHp: 100,
   damage: 40,
   shootSpeed: 1,
   restrictToArea: area2

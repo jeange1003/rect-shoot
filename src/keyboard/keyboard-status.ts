@@ -1,6 +1,4 @@
 export abstract class KeyboardStatus {
-  constructor() { }
-
   abstract get isUpPressed(): boolean
 
   abstract get isDownPressed(): boolean

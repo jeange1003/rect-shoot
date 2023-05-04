@@ -1,9 +1,11 @@
+import { KeyboardKeys } from '../base-types/keyboard-keys';
 import { KeyboardStatus } from './keyboard-status.js'
+
 export class PlayerKeyboardStatus extends KeyboardStatus {
-  keys: any;
+  keys: KeyboardKeys;
   pressedKeys: string[] = []
 
-  constructor(keys: any) {
+  constructor(keys: KeyboardKeys) {
     super()
     this.keys = keys
 

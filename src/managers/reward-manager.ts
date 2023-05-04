@@ -1,14 +1,16 @@
-import { canvas } from "../canvas";
+import { canvas } from "../global/canvas";
 import { Manager } from "./manager";
 import { Reward } from "../objects/reward";
+import { Scene } from "../scene";
+import { Rect } from "../objects/rect";
 
 export class RewardManager extends Manager {
   rewards: Reward[] = []
   static MaxCount = 3
-  cooldown: any;
-  rects: any;
-  scene: any;
-  constructor(params: any) {
+  cooldown: number;
+  rects: Rect[];
+  scene: Scene;
+  constructor(params: { scene: Scene, rects: Rect[] }) {
     super()
     this.scene = params.scene
     this.rects = params.rects
