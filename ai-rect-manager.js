@@ -8,14 +8,15 @@ export class AiRectManager {
   constructor(params) {
     this.scene = params.scene
     this.playerRects = params.playerRects
-    // this.aiRects = []
-    setInterval(() => {
-      this.generateAi()
-    }, (1000));
+    this.cooldown = 60
   }
-  // update() {
-
-  // }
+  update() {
+    this.cooldown--
+    if (this.cooldown <= 0) {
+      this.generateAi()
+      this.cooldown = 60
+    }
+  }
   generateAi() {
     const area = new Area({ x1: 0, x2: canvas.width, y1: 0, y2: canvas.height })
     const aiRect = new Rect(

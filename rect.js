@@ -2,7 +2,7 @@ import { AttributeType } from './attribute-type.js';
 import { BaseObject } from './base-object.js';
 import { Bullet } from './bullet.js';
 import { context } from './context.js';
-import { Position } from './position.js';
+
 export class Rect extends BaseObject {
   effects = []
   constructor(params, scene, position, keyboardStatus, color, direction, damage, shootSpeed, restrictToArea) {
@@ -25,28 +25,18 @@ export class Rect extends BaseObject {
   }
   get speed() {
     return this.applyEffect(AttributeType.Speed, this._speed)
-    // if (this.effects.length) {
-    //   let speed = this._speed
-    //   for (let effect of effects) {
-    //     speed = effect.applyEffect(AttributeType.Speed, speed)
-    //   }
-    //   return speed
-    // }
-    // return this._speed
   }
   set speed(value) {
     this._speed = value
   }
   get damage() {
     return this.applyEffect(AttributeType.Damage, this._damage)
-    // return this._damage
   }
   set damage(value) {
     this._damage = value
   }
   get shootSpeed() {
     return this.applyEffect(AttributeType.ShootSpeed, this._shootSpeed)
-    // return this._shootSpeed
   }
   set shootSpeed(value) {
     this._shootSpeed = value
@@ -70,23 +60,15 @@ export class Rect extends BaseObject {
   update() {
     const newPosition = { ...this.position }
     if (this.keyboardStatus.isLeftPressed) {
-      // if (this.position.x - this.size.width / 2 > 0) {
       newPosition.x = this.position.x - this.speed.x
-      // }
     } else if (this.keyboardStatus.isRightPressed) {
-      // if (this.position.x + this.size.width / 2 < canvas.width) {
       newPosition.x = this.position.x + this.speed.x
-      // }
     }
 
     if (this.keyboardStatus.isUpPressed) {
-      // if (this.position.y - this.size.height / 2 > 0) {
       newPosition.y = this.position.y - this.speed.y
-      // }
     } else if (this.keyboardStatus.isDownPressed) {
-      // if (this.position.y + this.size.height / 2 < canvas.height) {
       newPosition.y = this.position.y + this.speed.y
-      // }
     }
     if (this.restrictToArea.isInArea(newPosition)) {
       this.position = newPosition
@@ -140,12 +122,8 @@ export class Rect extends BaseObject {
   hurt(damage) {
     this.hp -= damage
     if (this.hp <= 0) {
-      // this.scene.removeObject(this)
       this.isDead = true
       this.enemys.forEach(e => e.removeEnemy(this))
     }
-  }
-  destroy() {
-
   }
 }

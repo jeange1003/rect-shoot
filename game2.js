@@ -32,7 +32,7 @@ const rect1 = new Rect({
   size: { width: 40, height: 40 },
   keyboardStatus: keyboardStatus1,
   color: 'blue',
-  speed: { x: 10, y: 10 },
+  speed: { x: 5, y: 5 },
   hp: 100,
   damage: 20,
   shootSpeed: 2,
@@ -45,7 +45,7 @@ const rect2 = new Rect({
   size: { width: 40, height: 40 },
   keyboardStatus: keyboardStatus2,
   color: 'red',
-  speed: { x: 10, y: 10 },
+  speed: { x: 5, y: 5 },
   hp: 100,
   damage: 20,
   shootSpeed: 2,
@@ -54,10 +54,11 @@ const rect2 = new Rect({
 // rect1.addEnemy(rect2)
 // rect2.addEnemy(rect1)
 const aiRectManager = new AiRectManager({ scene, playerRects: [rect1, rect2] })
-
+const rewardManager = new RewardManager({ scene, rects: [rect1, rect2] })
 scene.addObject(rect1)
 scene.addObject(rect2)
+scene.addManager(aiRectManager)
+scene.addManager(rewardManager)
 
-new RewardManager({ scene, rects: [rect1, rect2] })
 
 scene.start()

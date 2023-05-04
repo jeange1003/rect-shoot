@@ -7,11 +7,15 @@ export class RewardManager {
   constructor(params) {
     this.scene = params.scene
     this.rects = params.rects
-
-    setInterval(() => {
+    this.cooldown = 5 * 60
+  }
+  update() {
+    this.cooldown--
+    if (this.cooldown <= 0) {
+      this.cooldown = 5 * 60
       this.generateReward()
       this.checkVolumn()
-    }, (5000));
+    }
   }
   generateReward() {
     const reward = new Reward({

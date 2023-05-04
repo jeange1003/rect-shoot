@@ -3,12 +3,16 @@ import { context } from './context.js'
 
 export class Scene {
   objects = []
+  managers = []
 
   running = true
 
   render() {
     if (!this.running) {
       return
+    }
+    for (let manager of this.managers) {
+      manager.update()
     }
     context.clearRect(0, 0, canvas.width, canvas.height)
     for (let i = this.objects.length - 1; i >= 0; i--) {
@@ -26,6 +30,15 @@ export class Scene {
   }
   start() {
     this.render();
+    document.addEventListener('visibilitychange', () => {
+      console.log('document.hidden', document.hidden)
+      if (document.hidden) {
+        this.running = false
+      } else {
+        this.running = true
+        // requestAnimationFrame(this.render.bind(this))
+      }
+    }, false)
   }
 
   stop() {
@@ -38,5 +51,9 @@ export class Scene {
 
   removeObject(obj) {
     this.objects.splice(this.objects.indexOf(obj), 1)
+  }
+
+  addManager(manager) {
+    this.managers.push(manager)
   }
 }
