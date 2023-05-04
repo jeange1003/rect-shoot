@@ -2,5 +2,6 @@ export enum RewardTypes {
   SpeedUp = 'S',
   Enpower = 'P',
   FastShoot = 'F',
-  Health = 'H'
+  Health = 'H',
+  Shotgun = 'SG'
 }

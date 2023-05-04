@@ -1,9 +1,7 @@
-type DirectionValues = 1 | 0 | -1
-export class Direction {
-  x: DirectionValues
-  y: DirectionValues
-  constructor(x: DirectionValues, y: DirectionValues) {
-    this.x = x
-    this.y = y
+import { Vector2 } from "./vector2.js";
+
+export class Direction extends Vector2 {
+  clone() {
+    return new Direction(this.x, this.y)
   }
 }

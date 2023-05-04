@@ -3,10 +3,12 @@ import { Position } from "../base-types/position.js";
 import { Size } from "../base-types/size.js";
 import { BaseEffect } from "../effects/base-effect.js";
 import { BuffEffect } from "../effects/buff-effect.js";
+import { BulletEffect } from "../effects/bullet-effect.js";
 import { EnpowerEffect } from '../effects/enpower-effect.js'
 import { FastShootEffect } from '../effects/fast-shoot-effect.js'
 import { ImmediateEffect } from "../effects/immediate-effect.js";
 import { RecoverHealthEffect } from "../effects/recover-health-effect.js";
+import { ShotgunEffect } from "../effects/shotgun-effect.js";
 import { SpeedUpEffect } from '../effects/speed-up-effect.js'
 import { RewardTypes } from "../enums/reward-type.js";
 import { context } from '../global/context.js'
@@ -38,6 +40,7 @@ export class Reward extends BaseObject {
     this.isDead = false
   }
   getRandomType() {
+    // return RewardTypes.Shotgun
     const values = Object.values(RewardTypes)
     return values[Math.floor(Math.random() * values.length)]
   }
@@ -66,6 +69,8 @@ export class Reward extends BaseObject {
         return new FastShootEffect()
       case RewardTypes.Health:
         return new RecoverHealthEffect()
+      case RewardTypes.Shotgun:
+        return new ShotgunEffect()
       default:
         throw new Error('Illigal reward type')
     }
@@ -77,11 +82,18 @@ export class Reward extends BaseObject {
       if (xDistance < (this.size.width + rect.size.width) / 2
         && yDistance < (this.size.height + rect.size.height) / 2) {
         if (this.effect instanceof BuffEffect) {
-          rect.addEffect(this.effect)
+          rect.addBuffEffect(this.effect)
           setTimeout(() => {
-            rect.removeEffect(this.effect as BuffEffect)
+            rect.removeBuffEffect(this.effect as BuffEffect)
           }, Reward.EffectTime)
         }
+        if (this.effect instanceof BulletEffect) {
+          rect.addBulletEffect(this.effect)
+          setTimeout(() => {
+            rect.removeBulletEffect(this.effect as BulletEffect)
+          }, Reward.EffectTime)
+        }
+
         if (this.effect instanceof ImmediateEffect) {
           this.effect.applyEffect(rect)
         }

@@ -1,16 +1,17 @@
-import { AttributeType } from '../base-types/attribute-type.js';
-import { BaseObject } from './base-object.js';
-import { Bullet } from './bullet.js';
-import { context } from '../global/context.js';
-import { BuffEffect } from '../effects/buff-effect.js';
-import { Speed } from '../base-types/speed.js';
-import { KeyboardStatus } from '../keyboard/keyboard-status.js';
 import { Area } from '../base-types/area.js';
-import { Scene } from '../scene.js';
+import { AttributeType } from '../base-types/attribute-type.js';
+import { Attribute } from '../base-types/attribute.js';
+import { Direction } from '../base-types/direction.js';
 import { Position } from '../base-types/position.js';
 import { Size } from '../base-types/size.js';
-import { Direction } from '../base-types/direction.js';
-import { Attribute } from '../base-types/attribute.js';
+import { Speed } from '../base-types/speed.js';
+import { BuffEffect } from '../effects/buff-effect.js';
+import { BulletEffect } from '../effects/bullet-effect.js';
+import { context } from '../global/context.js';
+import { KeyboardStatus } from '../keyboard/keyboard-status.js';
+import { Scene } from '../scene.js';
+import { BaseObject } from './base-object.js';
+import { Bullet } from './bullet.js';
 
 export class Rect extends BaseObject {
   _damage!: number;
@@ -24,7 +25,8 @@ export class Rect extends BaseObject {
   keyboardStatus: KeyboardStatus;
   maxHp: number;
   restrictToArea: Area;
-  effects: BuffEffect[] = []
+  buffEffects: BuffEffect[] = []
+  bulletEffects: BulletEffect[] = []
   constructor(params: {
     scene: Scene,
     position: Position,
@@ -58,41 +60,54 @@ export class Rect extends BaseObject {
     this.enemys = params.enemys || []
   }
   get speed() {
-    return this.applyEffect(AttributeType.Speed, this._speed)
+    return this.applyBuffEffect(AttributeType.Speed, this._speed)
   }
   set speed(value) {
     this._speed = value
   }
   get damage() {
-    return this.applyEffect(AttributeType.Damage, this._damage)
+    return this.applyBuffEffect(AttributeType.Damage, this._damage)
   }
   set damage(value) {
     this._damage = value
   }
   get shootSpeed() {
-    return this.applyEffect(AttributeType.ShootSpeed, this._shootSpeed)
+    return this.applyBuffEffect(AttributeType.ShootSpeed, this._shootSpeed)
   }
   set shootSpeed(value) {
     this._shootSpeed = value
   }
-  addEffect(effect: BuffEffect) {
-    this.effects.push(effect)
+  addBuffEffect(effect: BuffEffect) {
+    this.buffEffects.push(effect)
   }
-  removeEffect(effect: BuffEffect) {
-    this.effects = this.effects.filter(e => e !== effect)
+  removeBuffEffect(effect: BuffEffect) {
+    this.buffEffects = this.buffEffects.filter(e => e !== effect)
   }
-  applyEffect(attributeType: AttributeType, attribute: Attribute) {
-    if (this.effects.length) {
+  applyBuffEffect(attributeType: AttributeType, attribute: Attribute) {
+    if (this.buffEffects.length) {
       let _attribute = attribute
-      for (let effect of this.effects) {
+      for (let effect of this.buffEffects) {
         _attribute = effect.applyEffect(attributeType, _attribute)
       }
       return _attribute
     }
     return attribute
   }
+  addBulletEffect(effect: BulletEffect) {
+    this.bulletEffects.push(effect)
+  }
+  removeBulletEffect(effect: BulletEffect) {
+    this.bulletEffects = this.bulletEffects.filter(e => e !== effect)
+  }
+  applyBulletEffect(originBullet: Bullet) {
+    let afterEffectBullet = [originBullet]
+    for (let effect of this.bulletEffects) {
+      afterEffectBullet = effect.applyEffect(afterEffectBullet)
+    }
+    return afterEffectBullet
+  }
   update() {
-    const newPosition = { ...this.position }
+    const newPosition = this.position.clone()
     if (this.keyboardStatus.isLeftPressed) {
       newPosition.x = this.position.x - this.speed.x
     } else if (this.keyboardStatus.isRightPressed) {
@@ -121,12 +136,13 @@ export class Rect extends BaseObject {
     this.renderHp()
   }
   fire() {
-    const bullet = new Bullet({
+    const originBullet = new Bullet({
       scene: this.scene,
       position: new Position(
         this.position.x + this.direction.x * this.size.width + this.direction.x * 20,
         this.position.y + this.direction.y * this.size.height + this.direction.y * 20
       ),
+      direction: new Direction(this.direction.x, this.direction.y),
       speed: new Speed(
         this.direction.x * 15,
         this.direction.y * 15
@@ -135,7 +151,11 @@ export class Rect extends BaseObject {
       enemys: this.enemys,
       damage: this.damage
     })
-    this.scene.addObject(bullet)
+
+    let afterEffectBullets = this.applyBulletEffect(originBullet)
+    for (let bullet of afterEffectBullets) {
+      this.scene.addObject(bullet)
+    }
   }
   renderSelf() {
     context.beginPath();

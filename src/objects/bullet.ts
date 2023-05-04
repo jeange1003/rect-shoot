@@ -15,12 +15,12 @@ export class Bullet extends BaseObject {
   isDead: boolean = false;
   speed: Speed;
 
-  constructor(params: { scene: Scene, position: Position, speed: Speed, color: string, enemys: Rect[], damage: number }) {
+  constructor(params: { scene: Scene, position: Position, direction: Direction, speed: Speed, color: string, enemys: Rect[], damage: number }) {
     super({
       scene: params.scene,
       position: params.position,
       size: new Size(params.damage, Math.floor(params.damage / 6)),
-      direction: new Direction(0, 0)
+      direction: params.direction
     })
     this.scene = params.scene
     this.position = params.position
@@ -33,19 +33,31 @@ export class Bullet extends BaseObject {
   update() {
     this.position.x += this.speed.x
     this.position.y += this.speed.y
-    if (this.position.x > canvas.width || this.position.x < 0 || this.position.y > canvas.height || this.position.y < 0) {
+    if (this.isOutOfView()) {
       this.isDead = true
     }
     this.checkCollision()
     this.render()
   }
   render() {
+    context.save()
     context.beginPath();
     context.lineWidth = 0;
     context.strokeStyle = 'red';
     context.fillStyle = this.color;
-    context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2, this.size.width, this.size.height);
+    context.translate(this.position.x, this.position.y)
+    // if (this.direction.degree < 0 || this.direction.degree > 270) {
+    //   console.log('this.direction.degree', this.direction.degree)
+    // }
+    context.rotate(this.direction.radian)
+    // context.rotate((347 * Math.PI) / 180)
+    context.rect(- this.size.width / 2, - this.size.height / 2, this.size.width, this.size.height)
+    // context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2, this.size.width, this.size.height);
     context.fill();
+    context.restore()
+  }
+  isOutOfView() {
+    return this.position.x > canvas.width || this.position.x < 0 || this.position.y > canvas.height || this.position.y < 0
   }
   checkCollision() {
     for (let enemy of this.enemys) {

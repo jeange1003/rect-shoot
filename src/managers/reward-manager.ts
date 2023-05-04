@@ -3,10 +3,14 @@ import { Manager } from "./manager.js";
 import { Reward } from "../objects/reward.js";
 import { Scene } from "../scene.js";
 import { Rect } from "../objects/rect.js";
+import { Direction } from "../base-types/direction.js";
+import { Size } from "../base-types/size.js";
+import { Position } from "../base-types/position.js";
 
 export class RewardManager extends Manager {
   rewards: Reward[] = []
-  static MaxCount = 3
+  static MaxCount = 30
+  static CoolDown = 1
   cooldown: number;
   rects: Rect[];
   scene: Scene;
@@ -14,12 +18,12 @@ export class RewardManager extends Manager {
     super()
     this.scene = params.scene
     this.rects = params.rects
-    this.cooldown = 5 * 60
+    this.cooldown = RewardManager.CoolDown * 60
   }
   update() {
     this.cooldown--
     if (this.cooldown <= 0) {
-      this.cooldown = 5 * 60
+      this.cooldown = RewardManager.CoolDown * 60
       this.generateReward()
       this.checkVolumn()
     }
@@ -27,9 +31,9 @@ export class RewardManager extends Manager {
   generateReward() {
     const reward = new Reward({
       scene: this.scene,
-      position: { x: Math.floor(Math.random() * canvas.width), y: Math.floor(Math.random() * canvas.height) },
-      size: { width: 20, height: 20 },
-      direction: { x: 0, y: 0 },
+      position: new Position(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height)),
+      size: new Size(20, 20),
+      direction: new Direction(0, 0),
       rects: this.rects,
       rewardManager: this
     })

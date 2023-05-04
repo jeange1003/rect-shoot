@@ -32,7 +32,6 @@ export class Scene {
   start() {
     this.render();
     document.addEventListener('visibilitychange', () => {
-      console.log('document.hidden', document.hidden)
       if (document.hidden) {
         this.running = false
       } else {
