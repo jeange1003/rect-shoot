@@ -4,8 +4,19 @@ import { Bullet } from './bullet.js';
 import { context } from './context.js';
 
 export class Rect extends BaseObject {
+  _damage: any;
+  _shootSpeed: any;
+  _speed: any;
+  color: any;
+  cooldown: any;
+  enemys: any;
+  hp: any;
+  isDead: any;
+  keyboardStatus: any;
+  maxHp: any;
+  restrictToArea: any;
   effects = []
-  constructor(params, scene, position, keyboardStatus, color, direction, damage, shootSpeed, restrictToArea) {
+  constructor(params: any, scene: any, position: any, keyboardStatus: any, color: any, direction: any, damage: any, shootSpeed: any, restrictToArea: any) {
     super({
       scene: params.scene,
       position: params.position,
@@ -41,16 +52,18 @@ export class Rect extends BaseObject {
   set shootSpeed(value) {
     this._shootSpeed = value
   }
-  addEffect(effect) {
+  addEffect(effect: any) {
+    // @ts-expect-error TS(2345): Argument of type 'any' is not assignable to parame... Remove this comment to see the full error message
     this.effects.push(effect)
   }
-  removeEffect(effect) {
+  removeEffect(effect: any) {
     this.effects = this.effects.filter(e => e !== effect)
   }
-  applyEffect(attributeType, attribute) {
+  applyEffect(attributeType: any, attribute: any) {
     if (this.effects.length) {
       let _attribute = attribute
       for (let effect of this.effects) {
+        // @ts-expect-error TS(2339): Property 'applyEffect' does not exist on type 'nev... Remove this comment to see the full error message
         _attribute = effect.applyEffect(attributeType, _attribute)
       }
       return _attribute
@@ -113,17 +126,17 @@ export class Rect extends BaseObject {
     context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2 - 15, this.size.width * (this.hp / this.maxHp), 5);
     context.fill();
   }
-  addEnemy(enemy) {
+  addEnemy(enemy: any) {
     this.enemys.push(enemy)
   }
-  removeEnemy(enemy) {
-    this.enemys = this.enemys.filter(e => e !== enemy)
+  removeEnemy(enemy: any) {
+    this.enemys = this.enemys.filter((e: any) => e !== enemy)
   }
-  hurt(damage) {
+  hurt(damage: any) {
     this.hp -= damage
     if (this.hp <= 0) {
       this.isDead = true
-      this.enemys.forEach(e => e.removeEnemy(this))
+      this.enemys.forEach((e: any) => e.removeEnemy(this))
     }
   }
 }

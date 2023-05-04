@@ -1,7 +1,7 @@
 import { RewardEffect } from "./reward-effect.js";
 
 export class BuffEffect extends RewardEffect {
-  constructor(reward) {
+  constructor(reward: any) {
     super(reward)
   }
   applyEffect() {

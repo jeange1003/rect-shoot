@@ -5,7 +5,10 @@ import { Rect } from './rect.js'
 import { Position } from './position.js'
 
 export class AiRectManager {
-  constructor(params) {
+  cooldown: any;
+  playerRects: any;
+  scene: any;
+  constructor(params: any) {
     this.scene = params.scene
     this.playerRects = params.playerRects
     this.cooldown = 60
@@ -18,12 +21,16 @@ export class AiRectManager {
     }
   }
   generateAi() {
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
     const area = new Area({ x1: 0, x2: canvas.width, y1: 0, y2: canvas.height })
+    // @ts-expect-error TS(2554): Expected 9 arguments, but got 1.
     const aiRect = new Rect(
       {
         scene: this.scene,
         position: new Position(
+          // @ts-expect-error TS(2531): Object is possibly 'null'.
           canvas.width - Math.floor(Math.random() * 100),
+          // @ts-expect-error TS(2531): Object is possibly 'null'.
           Math.floor(canvas.height * Math.random())
         ),
         size: { width: 50, height: 50 },

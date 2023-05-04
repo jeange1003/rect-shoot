@@ -1,5 +1,9 @@
 export class BaseObject {
-  constructor(params) {
+  direction: any;
+  position: any;
+  scene: any;
+  size: any;
+  constructor(params: any) {
     this.scene = params.scene
     this.position = params.position
     this.size = params.size

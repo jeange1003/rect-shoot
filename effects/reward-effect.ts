@@ -1,5 +1,6 @@
 export class RewardEffect {
-  constructor(reward) {
+  reward: any;
+  constructor(reward: any) {
     this.reward = reward
   }
   applyEffect() {

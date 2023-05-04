@@ -3,8 +3,13 @@ import { canvas } from './canvas.js'
 import { BaseObject } from './base-object.js'
 
 export class Bullet extends BaseObject {
+  color: any;
+  damage: any;
+  enemys: any;
+  isDead: any;
+  speed: any;
 
-  constructor(scene, position, speed, color, enemys, damage) {
+  constructor(scene: any, position: any, speed: any, color: any, enemys: any, damage: any) {
     super({
       scene,
       position,
@@ -21,6 +26,7 @@ export class Bullet extends BaseObject {
   update() {
     this.position.x += this.speed.x
     this.position.y += this.speed.y
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
     if (this.position.x > canvas.width || this.position.x < 0 || this.position.y > canvas.height || this.position.y < 0) {
       // this.scene.removeObject(this)
       this.isDead = true

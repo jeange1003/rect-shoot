@@ -15,7 +15,12 @@ export class Reward extends BaseObject {
     FastShoot: 'F',
     Health: 'H'
   }
-  constructor(params) {
+  effect: any;
+  isDead: any;
+  rects: any;
+  rewardManager: any;
+  type: any;
+  constructor(params: any) {
     super(params)
     this.type = this.getRandomType()
     this.rects = params.rects
@@ -24,6 +29,7 @@ export class Reward extends BaseObject {
     this.isDead = false
   }
   getRandomType() {
+    // @ts-expect-error TS(2550): Property 'values' does not exist on type 'ObjectCo... Remove this comment to see the full error message
     const values = Object.values(Reward.RewardTypes)
     return values[Math.floor(Math.random() * values.length)]
   }
@@ -42,15 +48,19 @@ export class Reward extends BaseObject {
     context.fillText(this.type, x + 5, y + this.size.height - 3)
     context.stroke();
   }
-  getEffect(type) {
+  getEffect(type: any) {
     switch (type) {
       case Reward.RewardTypes.SpeedUp:
+        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
         return new SpeedUpEffect()
       case Reward.RewardTypes.Enpower:
+        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
         return new EnpowerEffect()
       case Reward.RewardTypes.FastShoot:
+        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
         return new FastShootEffect()
       case Reward.RewardTypes.Health:
+        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
         return new RecoverHealthEffect()
       default:
         throw new Error('Illigal reward type')
@@ -69,6 +79,7 @@ export class Reward extends BaseObject {
           }, Reward.EffectTime)
         }
         if (this.effect instanceof ImmediateEffect) {
+          // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
           this.effect.applyEffect(rect)
         }
         this.rewardManager.removeReward(this)
