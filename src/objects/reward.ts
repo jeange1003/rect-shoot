@@ -1,11 +1,11 @@
-import { BaseObject } from "./base-object.js"
-import { context } from './context.js'
-import { SpeedUpEffect } from './effects/speed-up-effect.js'
-import { EnpowerEffect } from './effects/enpower-effect.js'
-import { FastShootEffect } from './effects/fast-shoot-effect.js'
-import { BuffEffect } from "./effects/buff-effect.js"
-import { ImmediateEffect } from "./effects/immediate-effect.js"
-import { RecoverHealthEffect } from "./effects/recover-health-effect.js"
+import { BaseObject } from "./base-object"
+import { context } from '../context'
+import { SpeedUpEffect } from '../effects/speed-up-effect'
+import { EnpowerEffect } from '../effects/enpower-effect'
+import { FastShootEffect } from '../effects/fast-shoot-effect'
+import { BuffEffect } from "../effects/buff-effect"
+import { ImmediateEffect } from "../effects/immediate-effect"
+import { RecoverHealthEffect } from "../effects/recover-health-effect"
 
 export class Reward extends BaseObject {
   static EffectTime = 20 * 1000
@@ -29,7 +29,6 @@ export class Reward extends BaseObject {
     this.isDead = false
   }
   getRandomType() {
-    // @ts-expect-error TS(2550): Property 'values' does not exist on type 'ObjectCo... Remove this comment to see the full error message
     const values = Object.values(Reward.RewardTypes)
     return values[Math.floor(Math.random() * values.length)]
   }
@@ -51,17 +50,13 @@ export class Reward extends BaseObject {
   getEffect(type: any) {
     switch (type) {
       case Reward.RewardTypes.SpeedUp:
-        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
-        return new SpeedUpEffect()
+        return new SpeedUpEffect(this)
       case Reward.RewardTypes.Enpower:
-        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
-        return new EnpowerEffect()
+        return new EnpowerEffect(this)
       case Reward.RewardTypes.FastShoot:
-        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
-        return new FastShootEffect()
+        return new FastShootEffect(this)
       case Reward.RewardTypes.Health:
-        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
-        return new RecoverHealthEffect()
+        return new RecoverHealthEffect(this)
       default:
         throw new Error('Illigal reward type')
     }
@@ -79,7 +74,6 @@ export class Reward extends BaseObject {
           }, Reward.EffectTime)
         }
         if (this.effect instanceof ImmediateEffect) {
-          // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
           this.effect.applyEffect(rect)
         }
         this.rewardManager.removeReward(this)

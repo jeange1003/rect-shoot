@@ -1,10 +1,8 @@
 import { RewardEffect } from "./reward-effect.js";
 
-export class ImmediateEffect extends RewardEffect {
+export abstract class ImmediateEffect extends RewardEffect {
   constructor(reward: any) {
     super(reward)
   }
-  applyEffect() {
-    throw new Error('To be implement')
-  }
+  abstract applyEffect(rect: any): void;
 }

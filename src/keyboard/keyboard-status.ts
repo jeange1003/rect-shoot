@@ -1,23 +1,13 @@
-export class KeyboardStatus {
+export abstract class KeyboardStatus {
   constructor() { }
 
-  get isUpPressed() {
-    throw new Error('To be implement')
-  }
+  abstract get isUpPressed(): boolean
 
-  get isDownPressed() {
-    throw new Error('To be implement')
-  }
+  abstract get isDownPressed(): boolean
 
-  get isLeftPressed() {
-    throw new Error('To be implement')
-  }
+  abstract get isLeftPressed(): boolean
 
-  get isRightPressed() {
-    throw new Error('To be implement')
-  }
+  abstract get isRightPressed(): boolean
 
-  get isFirePressed() {
-    throw new Error('To be implement')
-  }
+  abstract get isFirePressed(): boolean
 }

@@ -1,6 +1,6 @@
-import { context } from './context.js'
-import { canvas } from './canvas.js'
-import { BaseObject } from './base-object.js'
+import { context } from '../context'
+import { canvas } from '../canvas'
+import { BaseObject } from './base-object'
 
 export class Bullet extends BaseObject {
   color: any;
@@ -26,9 +26,7 @@ export class Bullet extends BaseObject {
   update() {
     this.position.x += this.speed.x
     this.position.y += this.speed.y
-    // @ts-expect-error TS(2531): Object is possibly 'null'.
     if (this.position.x > canvas.width || this.position.x < 0 || this.position.y > canvas.height || this.position.y < 0) {
-      // this.scene.removeObject(this)
       this.isDead = true
     }
     this.checkCollision()
@@ -49,7 +47,6 @@ export class Bullet extends BaseObject {
         && this.position.y > enemy.position.y - enemy.size.height
         && this.position.y < enemy.position.y + enemy.size.height) {
         enemy.hurt(this.damage)
-        // this.scene.removeObject(this)
         this.isDead = true
       }
     }

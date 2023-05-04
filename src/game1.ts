@@ -1,16 +1,14 @@
 import { Scene } from './scene.js'
-import { Rect } from './rect.js'
+import { Rect } from './objects/rect'
 import { Position } from './position.js'
 import { PlayerKeyboardStatus } from './keyboard/player-keyboard-status.js'
 import { canvas } from './canvas.js'
 import { Area } from './area.js'
-import { RewardManager } from './reward-manager.js'
+import { RewardManager } from './managers/reward-manager'
 
 const scene = new Scene()
 
-// @ts-expect-error TS(2531): Object is possibly 'null'.
 const area1 = new Area({ x1: 0, x2: canvas.width / 3 * 2, y1: 0, y2: canvas.height })
-// @ts-expect-error TS(2531): Object is possibly 'null'.
 const area2 = new Area({ x1: canvas.width / 3, x2: canvas.width, y1: 0, y2: canvas.height })
 
 const keyboardStatus1 = new PlayerKeyboardStatus({
@@ -28,10 +26,8 @@ const keyboardStatus2 = new PlayerKeyboardStatus({
   fire: 'm'
 })
 
-// @ts-expect-error TS(2554): Expected 9 arguments, but got 1.
 const rect1 = new Rect({
   scene: scene,
-  // @ts-expect-error TS(2531): Object is possibly 'null'.
   position: new Position(100, canvas.height / 3),
   direction: { x: 1, y: 0 },
   keyboardStatus: keyboardStatus1,
@@ -42,10 +38,8 @@ const rect1 = new Rect({
   shootSpeed: 2,
   restrictToArea: area1
 })
-// @ts-expect-error TS(2554): Expected 9 arguments, but got 1.
 const rect2 = new Rect({
   scene: scene,
-  // @ts-expect-error TS(2531): Object is possibly 'null'.
   position: new Position(canvas.width - 100, canvas.height / 2),
   direction: { x: -1, y: 0 },
   keyboardStatus: keyboardStatus2,

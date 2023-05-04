@@ -3,6 +3,7 @@ export class BaseObject {
   position: any;
   scene: any;
   size: any;
+  isDead: boolean = false
   constructor(params: any) {
     this.scene = params.scene
     this.position = params.position

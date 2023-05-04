@@ -1,9 +1,6 @@
-export class RewardEffect {
+export abstract class RewardEffect {
   reward: any;
   constructor(reward: any) {
     this.reward = reward
-  }
-  applyEffect() {
-    throw new Error('To be implement')
   }
 }

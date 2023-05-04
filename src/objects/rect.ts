@@ -1,7 +1,8 @@
-import { AttributeType } from './attribute-type.js';
-import { BaseObject } from './base-object.js';
-import { Bullet } from './bullet.js';
-import { context } from './context.js';
+import { AttributeType } from '../attribute-type';
+import { BaseObject } from './base-object';
+import { Bullet } from './bullet';
+import { context } from '../context';
+import { BuffEffect } from '../effects/buff-effect';
 
 export class Rect extends BaseObject {
   _damage: any;
@@ -15,8 +16,8 @@ export class Rect extends BaseObject {
   keyboardStatus: any;
   maxHp: any;
   restrictToArea: any;
-  effects = []
-  constructor(params: any, scene: any, position: any, keyboardStatus: any, color: any, direction: any, damage: any, shootSpeed: any, restrictToArea: any) {
+  effects: BuffEffect[] = []
+  constructor(params: any) {
     super({
       scene: params.scene,
       position: params.position,
@@ -53,7 +54,6 @@ export class Rect extends BaseObject {
     this._shootSpeed = value
   }
   addEffect(effect: any) {
-    // @ts-expect-error TS(2345): Argument of type 'any' is not assignable to parame... Remove this comment to see the full error message
     this.effects.push(effect)
   }
   removeEffect(effect: any) {
@@ -63,7 +63,6 @@ export class Rect extends BaseObject {
     if (this.effects.length) {
       let _attribute = attribute
       for (let effect of this.effects) {
-        // @ts-expect-error TS(2339): Property 'applyEffect' does not exist on type 'nev... Remove this comment to see the full error message
         _attribute = effect.applyEffect(attributeType, _attribute)
       }
       return _attribute
