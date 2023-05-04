@@ -1,11 +1,11 @@
 import { BaseObject } from "./base-object.js"
 import { context } from './context.js'
-import { SpeedUpEffect } from './effects/speed-up-effect.js'
-import { EnpowerEffect } from './effects/enpower-effect.js'
-import { FastShootEffect } from './effects/fast-shoot-effect.js'
-import { BuffEffect } from "./effects/buff-effect.js"
-import { ImmediateEffect } from "./effects/immediate-effect.js"
-import { RecoverHealthEffect } from "./effects/recover-health-effect.js"
+import { SpeedUpEffect } from './src/effects/speed-up-effect.js'
+import { EnpowerEffect } from './src/effects/enpower-effect.js'
+import { FastShootEffect } from './src/effects/fast-shoot-effect.js'
+import { BuffEffect } from "./src/effects/buff-effect.js"
+import { ImmediateEffect } from "./src/effects/immediate-effect.js"
+import { RecoverHealthEffect } from "./src/effects/recover-health-effect.js"
 
 export class Reward extends BaseObject {
   static EffectTime = 20 * 1000

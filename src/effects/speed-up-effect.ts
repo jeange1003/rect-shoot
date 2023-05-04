@@ -1,4 +1,4 @@
-import { AttributeType } from "../attribute-type.js";
+import { AttributeType } from "../../attribute-type.js";
 import { BuffEffect } from "./buff-effect.js";
 
 export class SpeedUpEffect extends BuffEffect {
