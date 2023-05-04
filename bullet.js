@@ -42,7 +42,6 @@ export class Bullet extends BaseObject {
         && this.position.x < enemy.position.x + enemy.size.width
         && this.position.y > enemy.position.y - enemy.size.height
         && this.position.y < enemy.position.y + enemy.size.height) {
-        console.log('checkCollision')
         enemy.hurt(this.damage)
         // this.scene.removeObject(this)
         this.isDead = true

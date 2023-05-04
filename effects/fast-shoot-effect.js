@@ -1,7 +1,7 @@
 import { AttributeType } from "../attribute-type.js";
-import { RewardEffect } from "./reward-effect.js";
+import { BuffEffect } from "./buff-effect.js";
 
-export class FastShootEffect extends RewardEffect {
+export class FastShootEffect extends BuffEffect {
   applyEffect(type, attribute) {
     switch (type) {
       case AttributeType.ShootSpeed:
