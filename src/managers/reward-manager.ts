@@ -1,8 +1,8 @@
-import { canvas } from "../global/canvas";
-import { Manager } from "./manager";
-import { Reward } from "../objects/reward";
-import { Scene } from "../scene";
-import { Rect } from "../objects/rect";
+import { canvas } from "../global/canvas.js";
+import { Manager } from "./manager.js";
+import { Reward } from "../objects/reward.js";
+import { Scene } from "../scene.js";
+import { Rect } from "../objects/rect.js";
 
 export class RewardManager extends Manager {
   rewards: Reward[] = []

@@ -1,4 +1,4 @@
-import { Position } from "./position";
+import { Position } from "./position.js";
 
 export class Area {
   x1: number;

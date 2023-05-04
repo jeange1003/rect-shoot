@@ -1,10 +1,10 @@
-import { AiKeyboardStatus } from '../keyboard/ai-keyboard-status'
-import { canvas } from '../global/canvas'
-import { Area } from '../base-types/area'
-import { Rect } from '../objects/rect'
-import { Position } from '../base-types/position'
-import { Manager } from './manager'
-import { Scene } from '../scene'
+import { AiKeyboardStatus } from '../keyboard/ai-keyboard-status.js'
+import { canvas } from '../global/canvas.js'
+import { Area } from '../base-types/area.js'
+import { Rect } from '../objects/rect.js'
+import { Position } from '../base-types/position.js'
+import { Manager } from './manager.js'
+import { Scene } from '../scene.js'
 
 export class AiRectManager extends Manager {
   cooldown: number;

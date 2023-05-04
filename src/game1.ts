@@ -1,13 +1,13 @@
 import { Scene } from './scene.js'
-import { Rect } from './objects/rect'
-import { Position } from './base-types/position'
+import { Rect } from './objects/rect.js'
+import { Position } from './base-types/position.js'
 import { PlayerKeyboardStatus } from './keyboard/player-keyboard-status.js'
-import { canvas } from './global/canvas'
-import { Area } from './base-types/area'
-import { RewardManager } from './managers/reward-manager'
-import { Direction } from './base-types/direction'
-import { Size } from './base-types/size'
-import { Speed } from './base-types/speed'
+import { canvas } from './global/canvas.js'
+import { Area } from './base-types/area.js'
+import { RewardManager } from './managers/reward-manager.js'
+import { Direction } from './base-types/direction.js'
+import { Size } from './base-types/size.js'
+import { Speed } from './base-types/speed.js'
 
 const scene = new Scene()
 

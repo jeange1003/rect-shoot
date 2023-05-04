@@ -1,12 +1,12 @@
 import { Scene } from './scene.js'
-import { Rect } from './objects/rect'
-import { Position } from './base-types/position'
+import { Rect } from './objects/rect.js'
+import { Position } from './base-types/position.js'
 import { PlayerKeyboardStatus } from './keyboard/player-keyboard-status.js'
-import { canvas } from './global/canvas'
-import { Area } from './base-types/area'
-import { RewardManager } from './managers/reward-manager'
-import { AiRectManager } from './managers/ai-rect-manager'
-import { Size } from './base-types/size'
+import { canvas } from './global/canvas.js'
+import { Area } from './base-types/area.js'
+import { RewardManager } from './managers/reward-manager.js'
+import { AiRectManager } from './managers/ai-rect-manager.js'
+import { Size } from './base-types/size.js'
 
 const scene = new Scene()
 

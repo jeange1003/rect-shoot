@@ -1,5 +1,5 @@
-import { AttributeType } from "../base-types/attribute-type";
-import { Rect } from "../objects/rect";
+import { AttributeType } from "../base-types/attribute-type.js";
+import { Rect } from "../objects/rect.js";
 import { BuffEffect } from "./buff-effect.js";
 
 export class EnpowerEffect extends BuffEffect {

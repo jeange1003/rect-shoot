@@ -1,4 +1,4 @@
-import { KeyboardKeys } from '../base-types/keyboard-keys';
+import { KeyboardKeys } from '../base-types/keyboard-keys.js';
 import { KeyboardStatus } from './keyboard-status.js'
 
 export class PlayerKeyboardStatus extends KeyboardStatus {

@@ -1,4 +1,4 @@
-import { AttributeType } from "../base-types/attribute-type";
+import { AttributeType } from "../base-types/attribute-type.js";
 import { BuffEffect } from "./buff-effect.js";
 
 export class FastShootEffect extends BuffEffect {

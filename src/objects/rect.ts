@@ -1,16 +1,16 @@
-import { AttributeType } from '../base-types/attribute-type';
-import { BaseObject } from './base-object';
-import { Bullet } from './bullet';
-import { context } from '../global/context';
-import { BuffEffect } from '../effects/buff-effect';
-import { Speed } from '../base-types/speed';
-import { KeyboardStatus } from '../keyboard/keyboard-status';
-import { Area } from '../base-types/area';
-import { Scene } from '../scene';
-import { Position } from '../base-types/position';
-import { Size } from '../base-types/size';
-import { Direction } from '../base-types/direction';
-import { Attribute } from '../base-types/attribute';
+import { AttributeType } from '../base-types/attribute-type.js';
+import { BaseObject } from './base-object.js';
+import { Bullet } from './bullet.js';
+import { context } from '../global/context.js';
+import { BuffEffect } from '../effects/buff-effect.js';
+import { Speed } from '../base-types/speed.js';
+import { KeyboardStatus } from '../keyboard/keyboard-status.js';
+import { Area } from '../base-types/area.js';
+import { Scene } from '../scene.js';
+import { Position } from '../base-types/position.js';
+import { Size } from '../base-types/size.js';
+import { Direction } from '../base-types/direction.js';
+import { Attribute } from '../base-types/attribute.js';
 
 export class Rect extends BaseObject {
   _damage!: number;

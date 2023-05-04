@@ -1,5 +1,5 @@
-import { BaseObject } from './objects/base-object'
-import { canvas } from './global/canvas'
+import { BaseObject } from './objects/base-object.js'
+import { canvas } from './global/canvas.js'
 import { context } from './global/context.js'
 import { Manager } from './managers/manager.js'
 

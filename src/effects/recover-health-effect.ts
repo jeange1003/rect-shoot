@@ -1,4 +1,4 @@
-import { Rect } from "../objects/rect";
+import { Rect } from "../objects/rect.js";
 import { ImmediateEffect } from "./immediate-effect.js";
 
 export class RecoverHealthEffect extends ImmediateEffect {

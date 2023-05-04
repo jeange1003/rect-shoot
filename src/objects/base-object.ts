@@ -1,7 +1,7 @@
-import { Direction } from "../base-types/direction";
-import { Position } from "../base-types/position";
-import { Size } from "../base-types/size";
-import { Scene } from "../scene";
+import { Direction } from "../base-types/direction.js";
+import { Position } from "../base-types/position.js";
+import { Size } from "../base-types/size.js";
+import { Scene } from "../scene.js";
 
 export abstract class BaseObject {
   direction: Direction;

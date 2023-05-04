@@ -1,12 +1,12 @@
-import { context } from '../global/context'
-import { canvas } from '../global/canvas'
-import { BaseObject } from './base-object'
-import { Rect } from './rect';
-import { Speed } from '../base-types/speed';
-import { Scene } from '../scene';
-import { Position } from '../base-types/position';
-import { Direction } from '../base-types/direction';
-import { Size } from '../base-types/size';
+import { context } from '../global/context.js'
+import { canvas } from '../global/canvas.js'
+import { BaseObject } from './base-object.js'
+import { Rect } from './rect.js';
+import { Speed } from '../base-types/speed.js';
+import { Scene } from '../scene.js';
+import { Position } from '../base-types/position.js';
+import { Direction } from '../base-types/direction.js';
+import { Size } from '../base-types/size.js';
 
 export class Bullet extends BaseObject {
   color: string;
