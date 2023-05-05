@@ -9,6 +9,7 @@ import { BuffEffect } from '../effects/buff-effect.js';
 import { BulletEffect } from '../effects/bullet-effect.js';
 import { ShotgunEffect } from '../effects/shotgun-effect.js';
 import { TrackerBulletEffect } from '../effects/tracker-bullet-effect.js';
+import { GameData } from '../game-data.js';
 import { context } from '../global/context.js';
 import { KeyboardStatus } from '../keyboard/keyboard-status.js';
 import { Scene } from '../scene.js';
@@ -20,6 +21,7 @@ export class Rect extends BaseObject {
   _damage!: number;
   _shootSpeed!: number;
   _speed!: Speed;
+  name: string;
   color: string;
   cooldown: number;
   enemys: Rect[];
@@ -33,7 +35,10 @@ export class Rect extends BaseObject {
   static MaxSpeed = new Speed(15, 15)
   onDeadCallbacks: ((rect: Rect) => void)[] = []
   bulletSpeed: number
+  gameData: GameData
+  level: number
   constructor(params: {
+    name: string,
     scene: Scene,
     position: Position,
     size: Size,
@@ -48,6 +53,7 @@ export class Rect extends BaseObject {
     restrictToArea: Area,
     bulletSpeed: number,
     enemys?: Rect[]
+    gameData: GameData
   }) {
     super({
       scene: params.scene,
@@ -55,6 +61,8 @@ export class Rect extends BaseObject {
       size: params.size,
       direction: params.direction
     })
+    this.gameData = params.gameData
+    this.name = params.name
     this.keyboardStatus = params.keyboardStatus
     this.color = params.color
     this.speed = params.speed
@@ -66,6 +74,7 @@ export class Rect extends BaseObject {
     this.restrictToArea = params.restrictToArea
     this.enemys = params.enemys || []
     this.bulletSpeed = params.bulletSpeed
+    this.level = params.gameData.level
   }
   get speed() {
     return this.applyBuffEffect(AttributeType.Speed, this._speed)
@@ -121,6 +130,15 @@ export class Rect extends BaseObject {
     return afterEffectBullet
   }
   update() {
+    this.changePosition()
+    this.shadeEffect()
+    this.render()
+  }
+  render() {
+    this.renderSelf()
+    this.renderHp()
+  }
+  changePosition() {
     const newPosition = this.position.clone()
     if (this.keyboardStatus.isLeftPressed) {
       newPosition.x = this.position.x - this.speed.x
@@ -143,11 +161,14 @@ export class Rect extends BaseObject {
       this.fire()
       this.cooldown = Math.floor(60 / this.shootSpeed)
     }
-    this.render()
   }
-  render() {
-    this.renderSelf()
-    this.renderHp()
+  shadeEffect() {
+    const effects = [...this.buffEffects, ...this.bulletEffects]
+    for (let effect of effects) {
+      effect.remainTime = Math.floor(effect.remainTime - 1)
+    }
+    this.buffEffects = this.buffEffects.filter(effect => effect.remainTime > 0)
+    this.bulletEffects = this.bulletEffects.filter(effect => effect.remainTime > 0)
   }
   fire() {
     const originBullet = new Bullet({
@@ -194,6 +215,9 @@ export class Rect extends BaseObject {
     this.enemys = this.enemys.filter((e: Rect) => e !== enemy)
   }
   hurt(damage: number) {
+    if (this.isDead) {
+      return
+    }
     this.hp -= damage
     if (this.hp <= 0) {
       this.dead()

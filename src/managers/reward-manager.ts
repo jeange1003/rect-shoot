@@ -11,8 +11,6 @@ import { Settings } from "../settings.js";
 
 export class RewardManager extends Manager {
   rewards: Reward[] = []
-  static MaxCount = 10
-  static CoolDown = 7
   cooldown: number;
   rects: Rect[];
   scene: Scene;
@@ -27,10 +25,12 @@ export class RewardManager extends Manager {
     this.cooldown = this.maxCooldown * 60
   }
   get maxCooldown() {
-    return RewardManager.CoolDown - (this.gameData.level / this.settings.levelScore.length) * 6.6
+    return 0.5
+    // return 0.2
+    return 5 - (this.gameData.level / this.settings.levelScore.length) * 4.6
   }
   get maxCount() {
-    return RewardManager.MaxCount + this.gameData.level
+    return 2 + this.gameData.level
   }
   update() {
     this.cooldown--
@@ -43,7 +43,7 @@ export class RewardManager extends Manager {
   generateReward() {
     const reward = new Reward({
       scene: this.scene,
-      position: new Position(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height)),
+      position: new Position(Math.floor(Math.random() * canvas.width * 3 / 4), Math.floor(Math.random() * canvas.height)),
       size: new Size(20, 20),
       direction: new Direction(0, 0),
       rects: this.rects,

@@ -1,1 +1,3 @@
-export abstract class BaseEffect { }
+export abstract class BaseEffect {
+  abstract get name(): string
+}

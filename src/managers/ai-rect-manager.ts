@@ -34,6 +34,7 @@ export class AiRectManager extends Manager {
     const area = new Area({ x1: 0, x2: canvas.width, y1: 0, y2: canvas.height })
     const aiRect = new Rect(
       {
+        name: 'AI',
         scene: this.scene,
         position: new Position(
           canvas.width - Math.floor(Math.random() * 100),
@@ -49,11 +50,12 @@ export class AiRectManager extends Manager {
         damage: 20,
         shootSpeed: 2,
         bulletSpeed: (5 + this.gameData.level > 15) ? 15 : 5 + this.gameData.level,
-        restrictToArea: area
+        restrictToArea: area,
+        gameData: this.gameData
       }
     )
     aiRect.onDead((rect) => {
-      this.gameData.addScore(rect.maxHp / 10)
+      this.gameData.addScore(Math.pow(rect.level, 2))
     })
     for (let rect of this.playerRects) {
       rect.addEnemy(aiRect)

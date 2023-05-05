@@ -91,8 +91,11 @@ export class Reward extends BaseObject {
     context.fillText(this.type, x + 5, y + this.size.height - 3)
     context.stroke();
   }
+  /**
+   * in frame
+   */
   get effectTime() {
-    return 20 + this.gameData.level
+    return (20 + this.gameData.level) * 60
   }
   getEffect(type: any) {
     switch (type) {

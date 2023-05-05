@@ -4,6 +4,9 @@ import { Rect } from "../objects/rect.js";
 import { BuffEffect } from "./buff-effect.js";
 
 export class SpeedUpEffect extends BuffEffect {
+  get name() {
+    return 'S'
+  }
   applyEffect(type: AttributeType, attribute: Speed) {
     switch (type) {
       case AttributeType.Speed:

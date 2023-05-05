@@ -12,6 +12,7 @@ import { Speed } from './base-types/speed.js'
 import { ScorePanel } from './panels/score-panel.js'
 import { GameData } from './game-data.js'
 import { Settings } from './settings.js'
+import { PlayerPanel } from './panels/player-panel.js'
 
 const scene = new Scene()
 
@@ -30,8 +31,10 @@ const keyboardStatus2 = new PlayerKeyboardStatus({
   right: 'ArrowRight',
   fire: 'm'
 })
-
+const settings = new Settings({})
+const gameData = new GameData({ settings })
 const rect1 = new Rect({
+  name: 'Player1',
   scene: scene,
   position: new Position(100, canvas.height / 3),
   direction: new Direction(1, 0),
@@ -44,9 +47,11 @@ const rect1 = new Rect({
   damage: 20,
   shootSpeed: 2,
   restrictToArea: area1,
-  bulletSpeed: 15
+  bulletSpeed: 15,
+  gameData
 })
 const rect2 = new Rect({
+  name: 'Player2',
   scene: scene,
   position: new Position(100, canvas.height / 3 * 2),
   direction: new Direction(1, 0),
@@ -59,18 +64,22 @@ const rect2 = new Rect({
   damage: 20,
   shootSpeed: 2,
   restrictToArea: area1,
-  bulletSpeed: 15
+  bulletSpeed: 15,
+  gameData
 })
 
 
-const settings = new Settings({})
-const gameData = new GameData({ settings })
+
 const rewardManager = new RewardManager({ scene, rects: [rect1, rect2], gameData, settings })
 const aiRectManager = new AiRectManager({ scene, playerRects: [rect1, rect2], gameData })
 const scorePanel = new ScorePanel({ gameData, position: new Position(canvas.width / 2 - 48, 16) })
+const player1Panel = new PlayerPanel({ rect: rect1, position: new Position(10, 16) })
+const player2Panel = new PlayerPanel({ rect: rect2, position: new Position(canvas.width / 4, 16) })
 scene.addObject(rect1)
 scene.addObject(rect2)
 scene.addManager(aiRectManager)
 scene.addManager(rewardManager)
 scene.addPanel(scorePanel)
+scene.addPanel(player1Panel)
+scene.addPanel(player2Panel)
 scene.start()

@@ -2,6 +2,9 @@ import { Bullet } from "../objects/bullet.js";
 import { BulletEffect } from "./bullet-effect.js";
 
 export class ShotgunEffect extends BulletEffect {
+  get name() {
+    return 'SG'
+  }
   applyEffect(bullets: Bullet[]): Bullet[] {
     const newBullet1 = new Bullet({
       scene: bullets[0].scene,
