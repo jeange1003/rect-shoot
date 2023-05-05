@@ -9,6 +9,9 @@ import { AiRectManager } from './managers/ai-rect-manager.js'
 import { Size } from './base-types/size.js'
 import { Direction } from './base-types/direction.js'
 import { Speed } from './base-types/speed.js'
+import { ScorePanel } from './panels/score-panel.js'
+import { GameData } from './game-data.js'
+import { Settings } from './settings.js'
 
 const scene = new Scene()
 
@@ -40,7 +43,8 @@ const rect1 = new Rect({
   maxHp: 100,
   damage: 20,
   shootSpeed: 2,
-  restrictToArea: area1
+  restrictToArea: area1,
+  bulletSpeed: 15
 })
 const rect2 = new Rect({
   scene: scene,
@@ -54,14 +58,19 @@ const rect2 = new Rect({
   maxHp: 100,
   damage: 20,
   shootSpeed: 2,
-  restrictToArea: area1
+  restrictToArea: area1,
+  bulletSpeed: 15
 })
-const aiRectManager = new AiRectManager({ scene, playerRects: [rect1, rect2] })
-const rewardManager = new RewardManager({ scene, rects: [rect1, rect2] })
+
+
+const settings = new Settings({})
+const gameData = new GameData({ settings })
+const rewardManager = new RewardManager({ scene, rects: [rect1, rect2], gameData, settings })
+const aiRectManager = new AiRectManager({ scene, playerRects: [rect1, rect2], gameData })
+const scorePanel = new ScorePanel({ gameData, position: new Position(canvas.width / 2 - 48, 16) })
 scene.addObject(rect1)
 scene.addObject(rect2)
 scene.addManager(aiRectManager)
 scene.addManager(rewardManager)
-
-
+scene.addPanel(scorePanel)
 scene.start()

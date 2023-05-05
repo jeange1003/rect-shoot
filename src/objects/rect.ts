@@ -31,6 +31,8 @@ export class Rect extends BaseObject {
   buffEffects: BuffEffect[] = []
   bulletEffects: BulletEffect[] = []
   static MaxSpeed = new Speed(15, 15)
+  onDeadCallbacks: ((rect: Rect) => void)[] = []
+  bulletSpeed: number
   constructor(params: {
     scene: Scene,
     position: Position,
@@ -44,6 +46,7 @@ export class Rect extends BaseObject {
     damage: number,
     shootSpeed: number,
     restrictToArea: Area,
+    bulletSpeed: number,
     enemys?: Rect[]
   }) {
     super({
@@ -62,6 +65,7 @@ export class Rect extends BaseObject {
     this.shootSpeed = params.shootSpeed
     this.restrictToArea = params.restrictToArea
     this.enemys = params.enemys || []
+    this.bulletSpeed = params.bulletSpeed
   }
   get speed() {
     return this.applyBuffEffect(AttributeType.Speed, this._speed)
@@ -154,8 +158,8 @@ export class Rect extends BaseObject {
       ),
       direction: new Direction(this.direction.x, this.direction.y),
       speed: new Speed(
-        this.direction.x * 15,
-        this.direction.y * 15
+        this.direction.x * this.bulletSpeed,
+        this.direction.y * this.bulletSpeed
       ),
       color: this.color,
       enemys: this.enemys,
@@ -192,8 +196,17 @@ export class Rect extends BaseObject {
   hurt(damage: number) {
     this.hp -= damage
     if (this.hp <= 0) {
-      this.isDead = true
+      this.dead()
       this.enemys.forEach((e: Rect) => e.removeEnemy(this))
+    }
+  }
+  onDead(callback: (rect: Rect) => void) {
+    this.onDeadCallbacks.push(callback)
+  }
+  dead() {
+    this.isDead = true
+    for (let callback of this.onDeadCallbacks) {
+      callback(this)
     }
   }
 }

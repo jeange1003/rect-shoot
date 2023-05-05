@@ -8,17 +8,20 @@ import { Scene } from '../scene.js'
 import { Size } from '../base-types/size.js'
 import { Direction } from '../base-types/direction.js'
 import { Speed } from '../base-types/speed.js'
+import { GameData } from '../game-data.js'
 
 export class AiRectManager extends Manager {
-  static GenerateInterval = 30 // frame
+  static GenerateInterval = 60 // frame
   cooldown: number;
   playerRects: Rect[];
   scene: Scene;
-  constructor(params: { scene: Scene, playerRects: Rect[] }) {
+  gameData: GameData
+  constructor(params: { scene: Scene, playerRects: Rect[], gameData: GameData }) {
     super()
     this.scene = params.scene
     this.playerRects = params.playerRects
     this.cooldown = AiRectManager.GenerateInterval
+    this.gameData = params.gameData
   }
   update() {
     this.cooldown--
@@ -41,13 +44,17 @@ export class AiRectManager extends Manager {
         keyboardStatus: new AiKeyboardStatus(),
         color: 'gray',
         speed: new Speed(2, 2),
-        hp: 40,
-        maxHp: 40,
+        hp: 40 * (1 + this.gameData.level * 0.1),
+        maxHp: 40 * (1 + this.gameData.level * 0.1),
         damage: 20,
         shootSpeed: 2,
+        bulletSpeed: (5 + this.gameData.level > 15) ? 15 : 5 + this.gameData.level,
         restrictToArea: area
       }
     )
+    aiRect.onDead((rect) => {
+      this.gameData.addScore(rect.maxHp / 10)
+    })
     for (let rect of this.playerRects) {
       rect.addEnemy(aiRect)
       aiRect.addEnemy(rect)

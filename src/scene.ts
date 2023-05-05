@@ -2,10 +2,12 @@ import { BaseObject } from './objects/base-object.js'
 import { canvas } from './global/canvas.js'
 import { context } from './global/context.js'
 import { Manager } from './managers/manager.js'
+import { Panel } from './panels/panel.js'
 
 export class Scene {
   objects: BaseObject[] = []
   managers: Manager[] = []
+  panels: Panel[] = []
 
   running = true
 
@@ -26,6 +28,9 @@ export class Scene {
       if (obj.isDead) {
         this.removeObject(obj)
       }
+    }
+    for (let panel of this.panels) {
+      panel.update()
     }
     requestAnimationFrame(this.render.bind(this))
   }
@@ -54,5 +59,9 @@ export class Scene {
 
   addManager(manager: Manager) {
     this.managers.push(manager)
+  }
+
+  addPanel(panel: Panel) {
+    this.panels.push(panel)
   }
 }
