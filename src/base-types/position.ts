@@ -1,10 +1,6 @@
-export class Position {
-  x: number;
-  y: number;
-  constructor(x: number, y: number) {
-    this.x = x
-    this.y = y
-  }
+import { Vector2 } from "./vector2.js";
+
+export class Position extends Vector2 {
   clone() {
     return new Position(this.x, this.y)
   }

@@ -63,6 +63,11 @@ export class Vector2 {
     const radian = degree / 180 * Math.PI
     return this.rotateByRadian(radian)
   }
+  translate(dx: number, dy: number) {
+    this.x += dx
+    this.y += dy
+    return this
+  }
   clone() {
     return new Vector2(this.x, this.y)
   }

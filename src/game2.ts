@@ -7,6 +7,8 @@ import { Area } from './base-types/area.js'
 import { RewardManager } from './managers/reward-manager.js'
 import { AiRectManager } from './managers/ai-rect-manager.js'
 import { Size } from './base-types/size.js'
+import { Direction } from './base-types/direction.js'
+import { Speed } from './base-types/speed.js'
 
 const scene = new Scene()
 
@@ -29,11 +31,11 @@ const keyboardStatus2 = new PlayerKeyboardStatus({
 const rect1 = new Rect({
   scene: scene,
   position: new Position(100, canvas.height / 3),
-  direction: { x: 1, y: 0 },
-  size: { width: 40, height: 40 },
+  direction: new Direction(1, 0),
+  size: new Size(40, 40),
   keyboardStatus: keyboardStatus1,
   color: 'blue',
-  speed: { x: 5, y: 5 },
+  speed: new Speed(5, 5),
   hp: 100,
   maxHp: 100,
   damage: 20,
@@ -43,11 +45,11 @@ const rect1 = new Rect({
 const rect2 = new Rect({
   scene: scene,
   position: new Position(100, canvas.height / 3 * 2),
-  direction: { x: 1, y: 0 },
-  size: { width: 40, height: 40 },
+  direction: new Direction(1, 0),
+  size: new Size(40, 40),
   keyboardStatus: keyboardStatus2,
   color: 'red',
-  speed: { x: 5, y: 5 },
+  speed: new Speed(5, 5),
   hp: 100,
   maxHp: 100,
   damage: 20,

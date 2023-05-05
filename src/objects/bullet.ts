@@ -22,10 +22,7 @@ export class Bullet extends BaseObject {
       size: new Size(params.damage, Math.floor(params.damage / 6)),
       direction: params.direction
     })
-    this.scene = params.scene
-    this.position = params.position
     this.speed = params.speed
-    this.size = new Size(params.damage, 3)
     this.color = params.color
     this.enemys = params.enemys
     this.damage = params.damage

@@ -9,8 +9,8 @@ import { Position } from "../base-types/position.js";
 
 export class RewardManager extends Manager {
   rewards: Reward[] = []
-  static MaxCount = 30
-  static CoolDown = 1
+  static MaxCount = 10
+  static CoolDown = 5
   cooldown: number;
   rects: Rect[];
   scene: Scene;

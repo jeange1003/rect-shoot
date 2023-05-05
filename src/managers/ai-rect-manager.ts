@@ -5,8 +5,12 @@ import { Rect } from '../objects/rect.js'
 import { Position } from '../base-types/position.js'
 import { Manager } from './manager.js'
 import { Scene } from '../scene.js'
+import { Size } from '../base-types/size.js'
+import { Direction } from '../base-types/direction.js'
+import { Speed } from '../base-types/speed.js'
 
 export class AiRectManager extends Manager {
+  static GenerateInterval = 30 // frame
   cooldown: number;
   playerRects: Rect[];
   scene: Scene;
@@ -14,13 +18,13 @@ export class AiRectManager extends Manager {
     super()
     this.scene = params.scene
     this.playerRects = params.playerRects
-    this.cooldown = 60
+    this.cooldown = AiRectManager.GenerateInterval
   }
   update() {
     this.cooldown--
     if (this.cooldown <= 0) {
       this.generateAi()
-      this.cooldown = 60
+      this.cooldown = AiRectManager.GenerateInterval
     }
   }
   generateAi() {
@@ -32,11 +36,11 @@ export class AiRectManager extends Manager {
           canvas.width - Math.floor(Math.random() * 100),
           Math.floor(canvas.height * Math.random())
         ),
-        size: { width: 50, height: 50 },
-        direction: { x: -1, y: 0 },
+        size: new Size(50, 50),
+        direction: new Direction(-1, 0),
         keyboardStatus: new AiKeyboardStatus(),
         color: 'gray',
-        speed: { x: 2, y: 2 },
+        speed: new Speed(2, 2),
         hp: 40,
         maxHp: 40,
         damage: 20,

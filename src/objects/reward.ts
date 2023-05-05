@@ -10,6 +10,7 @@ import { ImmediateEffect } from "../effects/immediate-effect.js";
 import { RecoverHealthEffect } from "../effects/recover-health-effect.js";
 import { ShotgunEffect } from "../effects/shotgun-effect.js";
 import { SpeedUpEffect } from '../effects/speed-up-effect.js'
+import { TrackerBulletEffect } from "../effects/tracker-bullet-effect.js";
 import { RewardTypes } from "../enums/reward-type.js";
 import { context } from '../global/context.js'
 import { RewardManager } from "../managers/reward-manager.js";
@@ -40,7 +41,7 @@ export class Reward extends BaseObject {
     this.isDead = false
   }
   getRandomType() {
-    // return RewardTypes.Shotgun
+    // const values = Object.values([RewardTypes.Shotgun, RewardTypes.Tracker])
     const values = Object.values(RewardTypes)
     return values[Math.floor(Math.random() * values.length)]
   }
@@ -71,6 +72,8 @@ export class Reward extends BaseObject {
         return new RecoverHealthEffect()
       case RewardTypes.Shotgun:
         return new ShotgunEffect()
+      case RewardTypes.Tracker:
+        return new TrackerBulletEffect()
       default:
         throw new Error('Illigal reward type')
     }
