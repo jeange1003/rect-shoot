@@ -1,14 +1,6 @@
-import { context } from '../global/context.js'
-import { canvas } from '../global/canvas.js'
-import { BaseObject } from './base-object.js'
-import { Rect } from './rect.js';
-import { Speed } from '../base-types/speed.js';
-import { Scene } from '../scene.js';
-import { Position } from '../base-types/position.js';
-import { Direction } from '../base-types/direction.js';
-import { Size } from '../base-types/size.js';
-import { Bullet } from './bullet.js';
 import { Vector2 } from '../base-types/vector2.js';
+import { Bullet } from './bullet.js';
+import { Rect } from './rect.js';
 
 export class TrackerBullet extends Bullet {
   target?: Rect
@@ -17,9 +9,10 @@ export class TrackerBullet extends Bullet {
     if (this.target && this.target.isDead) {
       this.target = undefined
     }
-    if (this.enemys.length > 0) {
+    const aliveEnemys = this.enemys.filter(e => !e.isDead)
+    if (aliveEnemys.length > 0) {
       if (!this.target) {
-        this.target = this.enemys[Math.floor(this.enemys.length * Math.random())]
+        this.target = aliveEnemys[Math.floor(aliveEnemys.length * Math.random())]
       }
     }
     if (this.target) {
@@ -35,7 +28,7 @@ export class TrackerBullet extends Bullet {
   }
 
   static fromBullet(bullet: Bullet) {
-    return new TrackerBullet({
+    const newBullet = new TrackerBullet({
       scene: bullet.scene,
       position: bullet.position,
       direction: bullet.direction,
@@ -44,5 +37,8 @@ export class TrackerBullet extends Bullet {
       enemys: bullet.enemys,
       damage: bullet.damage
     })
+    // This is not very OOM, but convenient to implement multiple bullet effect on one bullet
+    Object.setPrototypeOf(Object.getPrototypeOf(newBullet), bullet)
+    return newBullet
   }
 }

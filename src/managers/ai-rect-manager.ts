@@ -31,13 +31,13 @@ export class AiRectManager extends Manager {
     }
   }
   generateAi() {
-    const area = new Area({ x1: 0, x2: canvas.width, y1: 0, y2: canvas.height })
+    const area = new Area({ x1: 100, x2: canvas.width, y1: 0, y2: canvas.height })
     const aiRect = new Rect(
       {
         name: 'AI',
         scene: this.scene,
         position: new Position(
-          canvas.width - Math.floor(Math.random() * 100),
+          canvas.width * 2 / 3 + Math.floor(Math.random() * canvas.width / 3),
           Math.floor(canvas.height * Math.random())
         ),
         size: new Size(50, 50),
@@ -45,8 +45,8 @@ export class AiRectManager extends Manager {
         keyboardStatus: new AiKeyboardStatus(),
         color: 'gray',
         speed: new Speed(2, 2),
-        hp: 40 * (1 + this.gameData.level * 0.1),
-        maxHp: 40 * (1 + this.gameData.level * 0.1),
+        hp: 40 * (1 + this.gameData.level * 0.5),
+        maxHp: 40 * (1 + this.gameData.level * 0.5),
         damage: 20,
         shootSpeed: 2,
         bulletSpeed: (5 + this.gameData.level > 15) ? 15 : 5 + this.gameData.level,

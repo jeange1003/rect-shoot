@@ -33,7 +33,10 @@ export class Bullet extends BaseObject {
     if (this.isOutOfView()) {
       this.isDead = true
     }
-    this.checkCollision()
+    const enemy = this.checkCollision()
+    if (enemy) {
+      this.hurtEnemy(enemy)
+    }
     this.render()
   }
   render() {
@@ -58,13 +61,17 @@ export class Bullet extends BaseObject {
   }
   checkCollision() {
     for (let enemy of this.enemys) {
-      if (this.position.x > enemy.position.x - enemy.size.width
+      if (!enemy.isDead
+        && this.position.x > enemy.position.x - enemy.size.width
         && this.position.x < enemy.position.x + enemy.size.width
         && this.position.y > enemy.position.y - enemy.size.height
         && this.position.y < enemy.position.y + enemy.size.height) {
-        enemy.hurt(this.damage)
-        this.isDead = true
+        return enemy
       }
     }
+  }
+  hurtEnemy(enemy: Rect) {
+    enemy.hurt(this.damage)
+    this.isDead = true
   }
 }

@@ -4,5 +4,6 @@ export enum RewardTypes {
   FastShoot = 'F',
   Health = 'H',
   Shotgun = 'SG',
-  Tracker = 'T'
+  Tracker = '🚀',
+  Piercing = '🏹'
 }

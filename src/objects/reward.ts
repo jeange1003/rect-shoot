@@ -7,6 +7,7 @@ import { BulletEffect } from "../effects/bullet-effect.js";
 import { EnpowerEffect } from '../effects/enpower-effect.js'
 import { FastShootEffect } from '../effects/fast-shoot-effect.js'
 import { ImmediateEffect } from "../effects/immediate-effect.js";
+import { PiercingBulletEffect } from "../effects/piercing-bullet-effect.js";
 import { RecoverHealthEffect } from "../effects/recover-health-effect.js";
 import { ShotgunEffect } from "../effects/shotgun-effect.js";
 import { SpeedUpEffect } from '../effects/speed-up-effect.js'
@@ -48,8 +49,8 @@ export class Reward extends BaseObject {
     // this.effectTime = (20 + params.gameData.level) * 60
   }
   getRandomType() {
-    // const values = Object.values([RewardTypes.Shotgun, RewardTypes.Tracker])
-    const values = Object.values(RewardTypes)
+    const values = Object.values([RewardTypes.Shotgun, RewardTypes.Tracker, RewardTypes.Piercing])
+    // const values = Object.values(RewardTypes)
     return values[Math.floor(Math.random() * values.length)]
   }
   update() {
@@ -111,6 +112,8 @@ export class Reward extends BaseObject {
         return new ShotgunEffect({ remainTime: this.effectTime })
       case RewardTypes.Tracker:
         return new TrackerBulletEffect({ remainTime: this.effectTime })
+      case RewardTypes.Piercing:
+        return new PiercingBulletEffect({ remainTime: this.effectTime })
       default:
         throw new Error('Illigal reward type')
     }
