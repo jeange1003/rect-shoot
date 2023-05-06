@@ -12,17 +12,32 @@ export class TrackerBullet extends Bullet {
     const aliveEnemys = this.enemys.filter(e => !e.isDead)
     if (aliveEnemys.length > 0) {
       if (!this.target) {
-        this.target = aliveEnemys[Math.floor(aliveEnemys.length * Math.random())]
+        this.target = aliveEnemys[0]
+        // this.target = aliveEnemys[Math.floor(aliveEnemys.length * Math.random())]
       }
     }
     if (this.target) {
-      const direction = new Vector2(this.target.position.x - this.position.x, this.target.position.y - this.position.y)
-      this.direction.x = direction.x
-      this.direction.y = direction.y
-      const speedLength = this.speed.length
-      const directionLength = direction.length
-      this.speed.x = direction.x / directionLength * speedLength
-      this.speed.y = direction.y / directionLength * speedLength
+      const positionDifference = new Vector2(this.target.position.x - this.position.x, this.target.position.y - this.position.y)
+      if (isNaN(positionDifference.x)) {
+        debugger
+      }
+      if (positionDifference.x !== 0 && positionDifference.y !== 0) {
+
+        const unitPositionDiff = positionDifference.unit()
+        // add turn around speed start
+        const unitSpeed = this.speed.unit()
+        const direction = unitPositionDiff.substract(unitSpeed).unit()
+        // add turn around speed end
+        this.direction.x = direction.x
+        this.direction.y = direction.y
+        console.log('direction', direction)
+
+
+        // const speedLength = this.speed.length
+
+        // this.speed.x = direction.x / directionLength * speedLength
+        // this.speed.y = direction.y / directionLength * speedLength
+      }
     }
     super.update()
   }
@@ -35,7 +50,8 @@ export class TrackerBullet extends Bullet {
       speed: bullet.speed,
       color: bullet.color,
       enemys: bullet.enemys,
-      damage: bullet.damage
+      damage: bullet.damage,
+      force: bullet.force
     })
     // This is not very OOM, but convenient to implement multiple bullet effect on one bullet
     Object.setPrototypeOf(Object.getPrototypeOf(newBullet), bullet)

@@ -184,7 +184,8 @@ export class Rect extends BaseObject {
       ),
       color: this.color,
       enemys: this.enemys,
-      damage: this.damage
+      damage: this.damage,
+      force: 15
     })
 
     let afterEffectBullets = this.applyBulletEffect(originBullet)

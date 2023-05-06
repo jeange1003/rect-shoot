@@ -1,9 +1,30 @@
 export class Vector2 {
-  x: number
-  y: number
+  _x: number
+  _y: number
   constructor(x: number, y: number) {
-    this.x = x
-    this.y = y
+    if (isNaN(x) || isNaN(y)) {
+      throw new Error('invalid x y param')
+    }
+    this._x = x
+    this._y = y
+  }
+  get x() {
+    return this._x
+  }
+  set x(value) {
+    if (isNaN(value)) {
+      debugger
+    }
+    this._x = value
+  }
+  get y() {
+    return this._y
+  }
+  set y(v) {
+    if (isNaN(v)) {
+      debugger
+    }
+    this._y = v
   }
   get isFirstQuadrant() {
     return this.x > 0 && this.y > 0
@@ -70,5 +91,12 @@ export class Vector2 {
   }
   clone() {
     return new Vector2(this.x, this.y)
+  }
+  unit() {
+    const length = this.length
+    return new Vector2(this.x / length, this.y / length)
+  }
+  substract(vector: Vector2) {
+    return new Vector2(this.x - vector.x, this.y - vector.y)
   }
 }

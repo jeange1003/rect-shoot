@@ -14,8 +14,10 @@ export class Bullet extends BaseObject {
   enemys: Rect[];
   isDead: boolean = false;
   speed: Speed;
+  force: number;
+  borderBufferLength = 100
 
-  constructor(params: { scene: Scene, position: Position, direction: Direction, speed: Speed, color: string, enemys: Rect[], damage: number }) {
+  constructor(params: { scene: Scene, position: Position, direction: Direction, speed: Speed, color: string, enemys: Rect[], damage: number, force: number }) {
     super({
       scene: params.scene,
       position: params.position,
@@ -26,8 +28,17 @@ export class Bullet extends BaseObject {
     this.color = params.color
     this.enemys = params.enemys
     this.damage = params.damage
+    if (isNaN(params.force)) {
+      throw new Error('invalid force')
+    }
+    this.force = params.force
   }
   update() {
+    this.speed.x += this.direction.x * this.force / 60
+    this.speed.y += this.direction.y * this.force / 60
+    if (isNaN(this.position.x)) {
+      throw new Error('invalid position')
+    }
     this.position.x += this.speed.x
     this.position.y += this.speed.y
     if (this.isOutOfView()) {
@@ -49,7 +60,7 @@ export class Bullet extends BaseObject {
     // if (this.direction.degree < 0 || this.direction.degree > 270) {
     //   console.log('this.direction.degree', this.direction.degree)
     // }
-    context.rotate(this.direction.radian)
+    context.rotate(this.speed.radian)
     // context.rotate((347 * Math.PI) / 180)
     context.rect(- this.size.width / 2, - this.size.height / 2, this.size.width, this.size.height)
     // context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2, this.size.width, this.size.height);
@@ -57,7 +68,10 @@ export class Bullet extends BaseObject {
     context.restore()
   }
   isOutOfView() {
-    return this.position.x > canvas.width || this.position.x < 0 || this.position.y > canvas.height || this.position.y < 0
+    return this.position.x > canvas.width + this.borderBufferLength
+      || this.position.x < 0 - + this.borderBufferLength
+      || this.position.y > canvas.height + this.borderBufferLength
+      || this.position.y < 0 - this.borderBufferLength
   }
   checkCollision() {
     for (let enemy of this.enemys) {

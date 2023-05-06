@@ -14,7 +14,8 @@ export class ShotgunEffect extends BulletEffect {
       speed: bullets[0].speed.clone().rotateByDegree(13),
       color: bullets[0].color,
       enemys: bullets[0].enemys,
-      damage: bullets[0].damage
+      damage: bullets[0].damage,
+      force: bullets[0].force
     }])
 
     const lastBullet = bullets[bullets.length - 1]
@@ -26,7 +27,8 @@ export class ShotgunEffect extends BulletEffect {
       speed: lastBullet.speed.clone().rotateByDegree(-13),
       color: lastBullet.color,
       enemys: lastBullet.enemys,
-      damage: lastBullet.damage
+      damage: lastBullet.damage,
+      force: lastBullet.force
     }])
     return [newBullet1, ...bullets, newBullet2]
   }

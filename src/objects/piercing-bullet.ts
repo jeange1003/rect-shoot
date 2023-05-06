@@ -23,7 +23,8 @@ export class PiercingBullet extends Bullet {
       speed: bullet.speed,
       color: bullet.color,
       enemys: bullet.enemys,
-      damage: bullet.damage
+      damage: bullet.damage,
+      force: bullet.force
     })
     Object.setPrototypeOf(Object.getPrototypeOf(newBullet), bullet)
     return newBullet

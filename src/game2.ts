@@ -47,7 +47,7 @@ const rect1 = new Rect({
   damage: 20,
   shootSpeed: 2,
   restrictToArea: area1,
-  bulletSpeed: 15,
+  bulletSpeed: 5,
   gameData
 })
 const rect2 = new Rect({
@@ -64,7 +64,7 @@ const rect2 = new Rect({
   damage: 20,
   shootSpeed: 2,
   restrictToArea: area1,
-  bulletSpeed: 15,
+  bulletSpeed: 5,
   gameData
 })
 
