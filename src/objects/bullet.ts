@@ -16,6 +16,9 @@ export class Bullet extends BaseObject {
   speed: Speed;
   force: number;
   borderBufferLength = 100
+  meta: Map<string, any>
+  customUpdateFunctions: ((this: Bullet) => boolean)[] = []
+  customHurtEnemyFunctions: ((this: Bullet, enemy: Rect) => boolean)[] = []
 
   constructor(params: { scene: Scene, position: Position, direction: Direction, speed: Speed, color: string, enemys: Rect[], damage: number, force: number }) {
     super({
@@ -32,8 +35,18 @@ export class Bullet extends BaseObject {
       throw new Error('invalid force')
     }
     this.force = params.force
+    this.meta = new Map<string, any>()
   }
   update() {
+    let customResult = true
+    if (this.customUpdateFunctions.length > 0) {
+      for (let func of this.customUpdateFunctions) {
+        customResult = customResult && func.apply(this)
+        if (!customResult) {
+          return
+        }
+      }
+    }
     this.speed.x += this.direction.x * this.force / 60
     this.speed.y += this.direction.y * this.force / 60
     if (isNaN(this.position.x)) {
@@ -43,6 +56,7 @@ export class Bullet extends BaseObject {
     this.position.y += this.speed.y
     if (this.isOutOfView()) {
       this.isDead = true
+      return
     }
     const enemy = this.checkCollision()
     if (enemy) {
@@ -57,13 +71,8 @@ export class Bullet extends BaseObject {
     context.strokeStyle = 'red';
     context.fillStyle = this.color;
     context.translate(this.position.x, this.position.y)
-    // if (this.direction.degree < 0 || this.direction.degree > 270) {
-    //   console.log('this.direction.degree', this.direction.degree)
-    // }
     context.rotate(this.speed.radian)
-    // context.rotate((347 * Math.PI) / 180)
     context.rect(- this.size.width / 2, - this.size.height / 2, this.size.width, this.size.height)
-    // context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2, this.size.width, this.size.height);
     context.fill();
     context.restore()
   }
@@ -85,7 +94,31 @@ export class Bullet extends BaseObject {
     }
   }
   hurtEnemy(enemy: Rect) {
+    let customResult = true
+    if (this.customHurtEnemyFunctions.length > 0) {
+      for (let func of this.customHurtEnemyFunctions) {
+        customResult = customResult && func.call(this, enemy)
+        if (!customResult) {
+          return
+        }
+      }
+    }
     enemy.hurt(this.damage)
     this.isDead = true
+  }
+  /**
+   * 
+   * @param func A funtion to be execute before update, return value to indicate whether to execute original update function or next update function, true for execution, false for skipping.
+   */
+  addCustomUpdate(func: (this: Bullet) => boolean) {
+    this.customUpdateFunctions.push(func)
+  }
+
+  /**
+   * 
+   * @param func Same as addCustomUpdate
+   */
+  addCustomHurtEnemy(func: (this: Bullet, enemy: Rect) => boolean) {
+    this.customHurtEnemyFunctions.push(func)
   }
 }

@@ -94,9 +94,15 @@ export class Vector2 {
   }
   unit() {
     const length = this.length
+    if (length === 0) {
+      return new Vector2(0, 0)
+    }
     return new Vector2(this.x / length, this.y / length)
   }
   substract(vector: Vector2) {
     return new Vector2(this.x - vector.x, this.y - vector.y)
+  }
+  add(vector: Vector2) {
+    return new Vector2(this.x + vector.x, this.y + vector.y)
   }
 }

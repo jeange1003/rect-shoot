@@ -68,15 +68,13 @@ const rect2 = new Rect({
   gameData
 })
 
-
-
 const rewardManager = new RewardManager({ scene, rects: [rect1, rect2], gameData, settings })
 const aiRectManager = new AiRectManager({ scene, playerRects: [rect1, rect2], gameData })
 const scorePanel = new ScorePanel({ gameData, position: new Position(canvas.width / 2 - 48, 16) })
 const player1Panel = new PlayerPanel({ rect: rect1, position: new Position(10, 16) })
 const player2Panel = new PlayerPanel({ rect: rect2, position: new Position(canvas.width / 4, 16) })
 scene.addObject(rect1)
-scene.addObject(rect2)
+// scene.addObject(rect2)
 scene.addManager(aiRectManager)
 scene.addManager(rewardManager)
 scene.addPanel(scorePanel)
