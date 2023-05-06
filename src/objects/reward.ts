@@ -49,8 +49,8 @@ export class Reward extends BaseObject {
     // this.effectTime = (20 + params.gameData.level) * 60
   }
   getRandomType() {
-    const values = Object.values([RewardTypes.Shotgun, RewardTypes.Tracker, RewardTypes.Piercing])
-    // const values = Object.values(RewardTypes)
+    // const values = Object.values([RewardTypes.Shotgun, RewardTypes.Tracker, RewardTypes.Piercing])
+    const values = Object.values(RewardTypes)
     return values[Math.floor(Math.random() * values.length)]
   }
   update() {

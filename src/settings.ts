@@ -5,7 +5,8 @@ export class Settings {
     // maxSpeed: number
   }) {
     // this.maxSpeed = params.maxSpeed
-    this.levelScore = this.generateLevelScoreFibonacci([])
+    // this.levelScore = this.generateLevelScoreFibonacci([])
+    this.levelScore = this.generateLevelScoreByPower()
   }
   /**
    * fibonacci
@@ -18,5 +19,12 @@ export class Settings {
       return levelScore
     }
     return this.generateLevelScoreFibonacci(levelScore.concat([levelScore[levelScore.length - 1] + levelScore[levelScore.length - 2]]))
+  }
+  generateLevelScoreByPower() {
+    const result = []
+    for (let i = 0; i < 100; i++) {
+      result.push(Math.pow(i, 2) * 10)
+    }
+    return result
   }
 }

@@ -25,7 +25,7 @@ export class RewardManager extends Manager {
     this.cooldown = this.maxCooldown * 60
   }
   get maxCooldown() {
-    return 1
+    // return 1
     // return 0.2
     return 5 - (this.gameData.level / this.settings.levelScore.length) * 4.6
   }

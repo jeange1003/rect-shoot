@@ -15,7 +15,6 @@ import { Settings } from './settings.js'
 import { PlayerPanel } from './panels/player-panel.js'
 
 const scene = new Scene()
-
 const area1 = new Area({ x1: 0, x2: canvas.width, y1: 0, y2: canvas.height })
 const keyboardStatus1 = new PlayerKeyboardStatus({
   up: 'w',

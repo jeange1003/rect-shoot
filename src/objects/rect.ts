@@ -7,15 +7,12 @@ import { Size } from '../base-types/size.js';
 import { Speed } from '../base-types/speed.js';
 import { BuffEffect } from '../effects/buff-effect.js';
 import { BulletEffect } from '../effects/bullet-effect.js';
-import { ShotgunEffect } from '../effects/shotgun-effect.js';
-import { TrackerBulletEffect } from '../effects/tracker-bullet-effect.js';
 import { GameData } from '../game-data.js';
 import { context } from '../global/context.js';
 import { KeyboardStatus } from '../keyboard/keyboard-status.js';
 import { Scene } from '../scene.js';
 import { BaseObject } from './base-object.js';
 import { Bullet } from './bullet.js';
-import { TrackerBullet } from './tracker-bullet.js';
 
 export class Rect extends BaseObject {
   _damage!: number;
@@ -112,12 +109,6 @@ export class Rect extends BaseObject {
   }
   addBulletEffect(effect: BulletEffect) {
     this.bulletEffects.push(effect)
-    this.bulletEffects.sort((a, b) => {
-      if (a instanceof TrackerBullet && !(b instanceof TrackerBullet)) {
-        return -1
-      }
-      return 1
-    })
   }
   removeBulletEffect(effect: BulletEffect) {
     this.bulletEffects = this.bulletEffects.filter(e => e !== effect)
