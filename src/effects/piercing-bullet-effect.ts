@@ -1,10 +1,11 @@
+import { RewardType } from "../base-types/reward-type.js";
 import { Bullet } from "../objects/bullet.js";
 import { Rect } from "../objects/rect.js";
 import { BulletEffect } from "./bullet-effect.js";
 
 export class PiercingBulletEffect extends BulletEffect {
   get name() {
-    return '🏹'
+    return RewardType.Piercing
   }
 
   applyEffect(bullets: Bullet[]): Bullet[] {

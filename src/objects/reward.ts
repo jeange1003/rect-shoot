@@ -4,7 +4,7 @@ import { Size } from "../base-types/size.js";
 import { BaseEffect } from "../effects/base-effect.js";
 import { BuffEffect } from "../effects/buff-effect.js";
 import { BulletEffect } from "../effects/bullet-effect.js";
-import { EnpowerEffect } from '../effects/enpower-effect.js'
+import { PowerUpEffect } from '../effects/power-up-effect.js'
 import { FastShootEffect } from '../effects/fast-shoot-effect.js'
 import { ImmediateEffect } from "../effects/immediate-effect.js";
 import { PiercingBulletEffect } from "../effects/piercing-bullet-effect.js";
@@ -12,24 +12,24 @@ import { RecoverHealthEffect } from "../effects/recover-health-effect.js";
 import { ShotgunEffect } from "../effects/shotgun-effect.js";
 import { SpeedUpEffect } from '../effects/speed-up-effect.js'
 import { TrackerBulletEffect } from "../effects/tracker-bullet-effect.js";
-import { RewardTypes } from "../enums/reward-type.js";
+import { RewardType } from "../base-types/reward-type.js";
 import { GameData } from "../game-data";
 import { context } from '../global/context.js'
+import { ImageManager } from "../managers/image-manager";
 import { RewardManager } from "../managers/reward-manager.js";
 import { Scene } from "../scene.js";
 import { BaseObject } from "./base-object.js";
 import { Rect } from "./rect.js";
+import rewardImage from '../configs/reward-image.json' assert {type: 'json'}
 
 export class Reward extends BaseObject {
-  // static EffectTime = 20 * 60
   effect: BaseEffect;
   isDead: boolean;
   rects: Rect[];
   rewardManager: RewardManager;
-  type: any;
+  type: RewardType;
   gameData: GameData;
-  // appliedRect?: Rect;
-  // effectTime: number // frame
+  imageManager: ImageManager
   constructor(params: {
     scene: Scene,
     position: Position,
@@ -37,7 +37,8 @@ export class Reward extends BaseObject {
     direction: Direction,
     rects: Rect[],
     rewardManager: RewardManager,
-    gameData: GameData
+    gameData: GameData,
+    imageManager: ImageManager
   }) {
     super(params)
     this.gameData = params.gameData
@@ -46,51 +47,23 @@ export class Reward extends BaseObject {
     this.rewardManager = params.rewardManager
     this.effect = this.getEffect(this.type)
     this.isDead = false
-    // this.effectTime = (20 + params.gameData.level) * 60
+    this.imageManager = params.imageManager
+
   }
   getRandomType() {
-    // const values = Object.values([RewardTypes.Shotgun, RewardTypes.Tracker, RewardTypes.Piercing])
-    const values = Object.values(RewardTypes)
+    // return RewardType.Tracker
+    const values = Object.values(RewardType)
     return values[Math.floor(Math.random() * values.length)]
   }
   update() {
-    // if (this.appliedRect) {
-    //   this.effectTime--
-    //   if (this.effectTime <= 0) {
-    //     if (this.effect instanceof BuffEffect) {
-    //       this.appliedRect.addBuffEffect(this.effect)
-    //       this.appliedRect.removeBuffEffect(this.effect as BuffEffect)
-    //     }
-    //     if (this.effect instanceof BulletEffect) {
-    //       this.appliedRect.removeBulletEffect(this.effect as BulletEffect)
-    //     }
-    //   }
-    // }
-
     this.checkCollision()
     this.render()
   }
-  render() {
-    context.beginPath();
+  async render() {
     const x = this.position.x - this.size.width / 2
     const y = this.position.y - this.size.height / 2
-    if (this.effect instanceof BuffEffect) {
-      context.strokeStyle = 'orange';
-      context.fillStyle = 'orange';
-      context.rect(x, y, this.type.length * 16, this.size.height);
-    } else if (this.effect instanceof BulletEffect) {
-      context.strokeStyle = 'red';
-      context.fillStyle = 'red';
-      context.rect(x, y, this.type.length * 16, this.size.height);
-    } else if (this.effect instanceof ImmediateEffect) {
-      context.strokeStyle = 'gray';
-      context.fillStyle = 'gray';
-      context.arc(this.position.x, this.position.y, 16, 0, 2 * Math.PI)
-    }
-
-    context.font = '16px serif'
-    context.fillText(this.type, x + 5, y + this.size.height - 3)
-    context.stroke();
+    const image = await this.imageManager.getImage(`../../assets/images/effects/${rewardImage[this.type]}`)
+    context.drawImage(image, x, y, 32, 32)
   }
   /**
    * in frame
@@ -100,19 +73,19 @@ export class Reward extends BaseObject {
   }
   getEffect(type: any) {
     switch (type) {
-      case RewardTypes.SpeedUp:
+      case RewardType.SpeedUp:
         return new SpeedUpEffect({ remainTime: this.effectTime })
-      case RewardTypes.Enpower:
-        return new EnpowerEffect({ remainTime: this.effectTime })
-      case RewardTypes.FastShoot:
+      case RewardType.PowerUp:
+        return new PowerUpEffect({ remainTime: this.effectTime })
+      case RewardType.FastShoot:
         return new FastShootEffect({ remainTime: this.effectTime })
-      case RewardTypes.Health:
+      case RewardType.Health:
         return new RecoverHealthEffect()
-      case RewardTypes.Shotgun:
+      case RewardType.Shotgun:
         return new ShotgunEffect({ remainTime: this.effectTime })
-      case RewardTypes.Tracker:
+      case RewardType.Tracker:
         return new TrackerBulletEffect({ remainTime: this.effectTime })
-      case RewardTypes.Piercing:
+      case RewardType.Piercing:
         return new PiercingBulletEffect({ remainTime: this.effectTime })
       default:
         throw new Error('Illigal reward type')

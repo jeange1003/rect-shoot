@@ -8,6 +8,7 @@ import { Size } from "../base-types/size.js";
 import { Position } from "../base-types/position.js";
 import { GameData } from "../game-data.js";
 import { Settings } from "../settings.js";
+import { ImageManager } from "./image-manager.js";
 
 export class RewardManager extends Manager {
   rewards: Reward[] = []
@@ -16,13 +17,15 @@ export class RewardManager extends Manager {
   scene: Scene;
   gameData: GameData
   settings: Settings
-  constructor(params: { scene: Scene, rects: Rect[], gameData: GameData, settings: Settings }) {
+  imageManager: ImageManager
+  constructor(params: { scene: Scene, rects: Rect[], gameData: GameData, settings: Settings, imageManager: ImageManager }) {
     super()
     this.scene = params.scene
     this.rects = params.rects
     this.gameData = params.gameData
     this.settings = params.settings
     this.cooldown = this.maxCooldown * 60
+    this.imageManager = params.imageManager
   }
   get maxCooldown() {
     // return 1
@@ -48,7 +51,8 @@ export class RewardManager extends Manager {
       direction: new Direction(0, 0),
       rects: this.rects,
       rewardManager: this,
-      gameData: this.gameData
+      gameData: this.gameData,
+      imageManager: this.imageManager
     })
     this.rewards.push(reward)
     this.scene.addObject(reward)

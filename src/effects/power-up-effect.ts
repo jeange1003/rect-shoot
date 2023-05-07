@@ -1,10 +1,10 @@
 import { AttributeType } from "../base-types/attribute-type.js";
-import { Rect } from "../objects/rect.js";
+import { RewardType } from "../base-types/reward-type.js";
 import { BuffEffect } from "./buff-effect.js";
 
-export class EnpowerEffect extends BuffEffect {
+export class PowerUpEffect extends BuffEffect {
   get name() {
-    return 'P'
+    return RewardType.PowerUp
   }
   applyEffect(type: AttributeType, attribute: number) {
     switch (type) {

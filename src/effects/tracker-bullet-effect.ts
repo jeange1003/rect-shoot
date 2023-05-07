@@ -1,10 +1,11 @@
+import { RewardType } from "../base-types/reward-type.js";
 import { Vector2 } from "../base-types/vector2.js";
 import { Bullet } from "../objects/bullet.js";
 import { BulletEffect } from "./bullet-effect.js";
 
 export class TrackerBulletEffect extends BulletEffect {
   get name() {
-    return '🚀'
+    return RewardType.Tracker
   }
 
   applyEffect(bullets: Bullet[]): Bullet[] {

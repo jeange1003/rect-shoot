@@ -1,10 +1,11 @@
+import { RewardType } from "../base-types/reward-type.js";
 import { Bullet } from "../objects/bullet.js";
 import { clone } from "../utils/clone.js";
 import { BulletEffect } from "./bullet-effect.js";
 
 export class ShotgunEffect extends BulletEffect {
   get name() {
-    return 'SG'
+    return RewardType.Shotgun
   }
   applyEffect(bullets: Bullet[]): Bullet[] {
     const newBullet1 = clone(bullets[0])

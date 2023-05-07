@@ -1,11 +1,12 @@
 import { AttributeType } from "../base-types/attribute-type.js";
+import { RewardType } from "../base-types/reward-type.js";
 import { Speed } from "../base-types/speed.js";
 import { Rect } from "../objects/rect.js";
 import { BuffEffect } from "./buff-effect.js";
 
 export class SpeedUpEffect extends BuffEffect {
   get name() {
-    return 'S'
+    return RewardType.SpeedUp
   }
   applyEffect(type: AttributeType, attribute: Speed) {
     switch (type) {

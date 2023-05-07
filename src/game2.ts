@@ -13,6 +13,7 @@ import { ScorePanel } from './panels/score-panel.js'
 import { GameData } from './game-data.js'
 import { Settings } from './settings.js'
 import { PlayerPanel } from './panels/player-panel.js'
+import { ImageManager } from './managers/image-manager.js'
 
 const scene = new Scene()
 const area1 = new Area({ x1: 0, x2: canvas.width, y1: 0, y2: canvas.height })
@@ -32,6 +33,7 @@ const keyboardStatus2 = new PlayerKeyboardStatus({
 })
 const settings = new Settings({})
 const gameData = new GameData({ settings })
+const imageManager = new ImageManager()
 const rect1 = new Rect({
   name: 'Player1',
   scene: scene,
@@ -67,11 +69,11 @@ const rect2 = new Rect({
   gameData
 })
 
-const rewardManager = new RewardManager({ scene, rects: [rect1, rect2], gameData, settings })
+const rewardManager = new RewardManager({ scene, rects: [rect1, rect2], gameData, settings, imageManager })
 const aiRectManager = new AiRectManager({ scene, playerRects: [rect1, rect2], gameData })
 const scorePanel = new ScorePanel({ gameData, position: new Position(canvas.width / 2 - 48, 16) })
-const player1Panel = new PlayerPanel({ rect: rect1, position: new Position(10, 16) })
-const player2Panel = new PlayerPanel({ rect: rect2, position: new Position(canvas.width / 4, 16) })
+const player1Panel = new PlayerPanel({ rect: rect1, position: new Position(10, 16), imageManager })
+const player2Panel = new PlayerPanel({ rect: rect2, position: new Position(canvas.width / 4, 16), imageManager })
 scene.addObject(rect1)
 // scene.addObject(rect2)
 scene.addManager(aiRectManager)
