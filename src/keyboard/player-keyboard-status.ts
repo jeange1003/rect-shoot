@@ -8,18 +8,20 @@ export class PlayerKeyboardStatus extends KeyboardStatus {
   constructor(keys: KeyboardKeys) {
     super()
     this.keys = keys
+    document.addEventListener('keydown', this.onKeyDown)
+    document.addEventListener('keyup', this.onKeyUp)
+  }
 
-    document.addEventListener('keydown', (e) => {
-      if (!this.pressedKeys.includes(e.key)) {
-        this.pressedKeys.push(e.key)
-      }
-    })
+  onKeyDown = (e: KeyboardEvent) => {
+    if (!this.pressedKeys.includes(e.key)) {
+      this.pressedKeys.push(e.key)
+    }
+  }
 
-    document.addEventListener('keyup', (e) => {
-      if (this.pressedKeys.includes(e.key)) {
-        this.pressedKeys = this.pressedKeys.slice(0, this.pressedKeys.indexOf(e.key)).concat(this.pressedKeys.slice(this.pressedKeys.indexOf(e.key) + 1, this.pressedKeys.length))
-      }
-    })
+  onKeyUp = (e: KeyboardEvent) => {
+    if (this.pressedKeys.includes(e.key)) {
+      this.pressedKeys = this.pressedKeys.slice(0, this.pressedKeys.indexOf(e.key)).concat(this.pressedKeys.slice(this.pressedKeys.indexOf(e.key) + 1, this.pressedKeys.length))
+    }
   }
 
   get isUpPressed() {
@@ -40,6 +42,11 @@ export class PlayerKeyboardStatus extends KeyboardStatus {
 
   get isFirePressed() {
     return true
+  }
+
+  dispose() {
+    document.removeEventListener('keydown', this.onKeyDown)
+    document.removeEventListener('keyup', this.onKeyUp)
   }
 }
 

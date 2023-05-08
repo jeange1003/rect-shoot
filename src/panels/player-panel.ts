@@ -17,6 +17,7 @@ export class PlayerPanel extends Panel {
     this.render()
   }
   async render() {
+    context.save()
     context.fillStyle = 'red';
     context.font = '16px serif'
     context.fillText(`${this.rect.name}:`, this.position.x, this.position.y)
@@ -29,5 +30,6 @@ export class PlayerPanel extends Panel {
       const effect = effects[i]
       context.fillText(`${Math.floor(effect.remainTime / 60)}`, this.position.x + 20, y + 15)
     }
+    context.restore()
   }
 }

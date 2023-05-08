@@ -49,7 +49,7 @@ export class AiRectManager extends Manager {
         maxHp: 40 * (1 + this.gameData.level * 0.5),
         damage: 20,
         shootSpeed: 2,
-        bulletSpeed: (5 + this.gameData.level > 15) ? 15 : 5 + this.gameData.level,
+        bulletSpeed: (3 + this.gameData.level > 15) ? 15 : 3 + this.gameData.level,
         restrictToArea: area,
         gameData: this.gameData
       }

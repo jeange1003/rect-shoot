@@ -14,71 +14,8 @@ import { GameData } from './game-data.js'
 import { Settings } from './settings.js'
 import { PlayerPanel } from './panels/player-panel.js'
 import { ImageManager } from './managers/image-manager.js'
+import { SceneStatus } from './base-types/scene-status.js'
+import { SceneManager } from './managers/scene-manager.js'
 
-const scene = new Scene()
-const area1 = new Area({ x1: 0, x2: canvas.width, y1: 0, y2: canvas.height })
-const keyboardStatus1 = new PlayerKeyboardStatus({
-  up: 'w',
-  down: 's',
-  left: 'a',
-  right: 'd',
-  fire: 'f'
-})
-const keyboardStatus2 = new PlayerKeyboardStatus({
-  up: 'ArrowUp',
-  down: 'ArrowDown',
-  left: 'ArrowLeft',
-  right: 'ArrowRight',
-  fire: 'm'
-})
-const settings = new Settings({})
-const gameData = new GameData({ settings })
-const imageManager = new ImageManager()
-const rect1 = new Rect({
-  name: 'Player1',
-  scene: scene,
-  position: new Position(100, canvas.height / 3),
-  direction: new Direction(1, 0),
-  size: new Size(40, 40),
-  keyboardStatus: keyboardStatus1,
-  color: 'blue',
-  speed: new Speed(5, 5),
-  hp: 100,
-  maxHp: 100,
-  damage: 20,
-  shootSpeed: 2,
-  restrictToArea: area1,
-  bulletSpeed: 5,
-  gameData
-})
-const rect2 = new Rect({
-  name: 'Player2',
-  scene: scene,
-  position: new Position(100, canvas.height / 3 * 2),
-  direction: new Direction(1, 0),
-  size: new Size(40, 40),
-  keyboardStatus: keyboardStatus2,
-  color: 'red',
-  speed: new Speed(5, 5),
-  hp: 100,
-  maxHp: 100,
-  damage: 20,
-  shootSpeed: 2,
-  restrictToArea: area1,
-  bulletSpeed: 5,
-  gameData
-})
-
-const rewardManager = new RewardManager({ scene, rects: [rect1, rect2], gameData, settings, imageManager })
-const aiRectManager = new AiRectManager({ scene, playerRects: [rect1, rect2], gameData })
-const scorePanel = new ScorePanel({ gameData, position: new Position(canvas.width / 2 - 48, 16) })
-const player1Panel = new PlayerPanel({ rect: rect1, position: new Position(10, 16), imageManager })
-const player2Panel = new PlayerPanel({ rect: rect2, position: new Position(canvas.width / 4, 16), imageManager })
-scene.addObject(rect1)
-// scene.addObject(rect2)
-scene.addManager(aiRectManager)
-scene.addManager(rewardManager)
-scene.addPanel(scorePanel)
-scene.addPanel(player1Panel)
-scene.addPanel(player2Panel)
-scene.start()
+const sceneManager = new SceneManager()
+sceneManager.createScene()

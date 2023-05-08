@@ -14,9 +14,11 @@ export class ScorePanel extends Panel {
     this.render()
   }
   render() {
+    context.save()
     context.fillStyle = 'red';
-    context.font = '16px serif'
+    context.font = '16px Arial'
     context.fillText(`Score: ${this.gameData.score}`, this.position.x, this.position.y)
     context.fillText(`Level: ${this.gameData.level}`, this.position.x, this.position.y + 16)
+    context.restore()
   }
 }
