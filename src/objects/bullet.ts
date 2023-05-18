@@ -81,10 +81,11 @@ export class Bullet extends BaseObject {
     context.restore()
   }
   isOutOfView() {
-    return this.position.x > canvas.width + this.borderBufferLength
-      || this.position.x < 0 - + this.borderBufferLength
-      || this.position.y > canvas.height + this.borderBufferLength
-      || this.position.y < 0 - this.borderBufferLength
+    return this.viewport.isObjectOutOfViewport(this)
+    // return this.position.x > this.viewport.center.x + canvas.width / 2 + this.borderBufferLength
+    //   || this.position.x < this.viewport.center.x - canvas.width / 2 - this.borderBufferLength
+    //   || this.position.y > this.viewport.center.y + canvas.height / 2 + this.borderBufferLength
+    //   || this.position.y < this.viewport.center.y - canvas.height / 2 - this.borderBufferLength
   }
   checkCollision() {
     for (let enemy of this.enemys) {
