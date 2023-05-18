@@ -18,6 +18,7 @@ import { SceneStatus } from '../base-types/scene-status.js'
 import { ScenePanel } from '../panels/scene-panel.js'
 import { context } from '../global/context.js'
 import { Viewport } from '../map/viewport.js'
+import { GameMap } from '../map/map.js'
 
 
 export class SceneManager {
@@ -84,6 +85,8 @@ export class SceneManager {
       gameData,
       viewport
     })
+    viewport.setPlayer1Rect(rect1)
+    viewport.setPlayer2Rect(rect2)
 
 
     const rewardManager = new RewardManager({ scene, rects: [rect1, rect2], gameData, settings, imageManager, viewport })
@@ -91,6 +94,7 @@ export class SceneManager {
     const scorePanel = new ScorePanel({ gameData, position: new Position(canvas.width / 2 - 48, 16) })
     const player1Panel = new PlayerPanel({ rect: rect1, position: new Position(10, 16), imageManager })
     const player2Panel = new PlayerPanel({ rect: rect2, position: new Position(canvas.width / 4, 16), imageManager })
+    const gameMap = new GameMap({ viewport })
     scene.addObject(rect1)
     scene.addObject(rect2)
     scene.addManager(aiRectManager)
@@ -98,6 +102,8 @@ export class SceneManager {
     scene.addPanel(scorePanel)
     scene.addPanel(player1Panel)
     scene.addPanel(player2Panel)
+    scene.setViewport(viewport)
+    scene.setGameMap(gameMap)
     scene.start()
 
     const onPlayerDead = () => {

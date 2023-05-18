@@ -50,7 +50,6 @@ export class Reward extends BaseObject {
     this.effect = this.getEffect(this.type)
     this.isDead = false
     this.imageManager = params.imageManager
-
   }
   getRandomType() {
     // return RewardType.Tracker

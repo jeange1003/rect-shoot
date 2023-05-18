@@ -6,6 +6,8 @@ import { Panel } from './panels/panel.js'
 import { SceneStatus } from './base-types/scene-status.js'
 import { ScenePanel } from './panels/scene-panel.js'
 import { Position } from './base-types/position.js'
+import { Viewport } from './map/viewport.js'
+import { GameMap } from './map/map.js'
 
 export class Scene {
   objects: BaseObject[] = []
@@ -14,15 +16,19 @@ export class Scene {
   status: SceneStatus = SceneStatus.BeforeStart
   scenePanel: ScenePanel = new ScenePanel({ scene: this, position: new Position(canvas.width / 2 - 300, canvas.height / 2) })
   requestId: number = 0
+  viewport!: Viewport;
+  gameMap!: GameMap
   render = () => {
     if (this.status !== SceneStatus.Running) {
       this.scenePanel.render()
       return
     }
+    context.clearRect(0, 0, canvas.width, canvas.height)
     for (let manager of this.managers) {
       manager.update()
     }
-    context.clearRect(0, 0, canvas.width, canvas.height)
+    this.viewport.update()
+    this.gameMap.update()
     for (let i = this.objects.length - 1; i >= 0; i--) {
       const obj = this.objects[i]
       obj.update()
@@ -77,6 +83,14 @@ export class Scene {
 
   setScenePanel(scenePanel: ScenePanel) {
     this.scenePanel = scenePanel
+  }
+
+  setViewport(viewport: Viewport) {
+    this.viewport = viewport
+  }
+
+  setGameMap(gameMap: GameMap) {
+    this.gameMap = gameMap
   }
 
   dispose() {
