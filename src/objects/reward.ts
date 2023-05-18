@@ -61,8 +61,9 @@ export class Reward extends BaseObject {
     this.render()
   }
   async render() {
-    const x = this.position.x - this.size.width / 2
-    const y = this.position.y - this.size.height / 2
+    const relativePosition = this.viewport.getPositionInViewport(this.position)
+    const x = relativePosition.x - this.size.width / 2
+    const y = relativePosition.y - this.size.height / 2
     const image = await this.imageManager.getImage(`../../assets/images/effects/${rewardImage[this.type]}`)
     context.drawImage(image, x, y, 32, 32)
   }

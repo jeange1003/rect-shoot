@@ -34,7 +34,7 @@ export class AiRectManager extends Manager {
     }
   }
   generateAi() {
-    const area = new Area({ x1: 100, x2: canvas.width, y1: 0, y2: canvas.height })
+    const area = new Area({ x1: -999999, x2: 999999, y1: -999999, y2: 999999 })
     const aiRect = new Rect(
       {
         name: 'AI',

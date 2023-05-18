@@ -19,6 +19,7 @@ import { ScenePanel } from '../panels/scene-panel.js'
 import { context } from '../global/context.js'
 import { Viewport } from '../map/viewport.js'
 import { GameMap } from '../map/map.js'
+import { FpsPanel } from '../panels/fps-panel.js'
 
 
 export class SceneManager {
@@ -27,7 +28,7 @@ export class SceneManager {
     const scene = new Scene()
     this.scenePanel = scene.scenePanel
     // scene.scenePanel = this.scenePanel
-    const area1 = new Area({ x1: 0, x2: canvas.width, y1: 0, y2: canvas.height })
+    const area1 = new Area({ x1: -999999, x2: 999999, y1: -999999, y2: 999999 })
     const keyboardStatus1 = new PlayerKeyboardStatus({
       up: 'w',
       down: 's',
@@ -94,6 +95,7 @@ export class SceneManager {
     const scorePanel = new ScorePanel({ gameData, position: new Position(canvas.width / 2 - 48, 16) })
     const player1Panel = new PlayerPanel({ rect: rect1, position: new Position(10, 16), imageManager })
     const player2Panel = new PlayerPanel({ rect: rect2, position: new Position(canvas.width / 4, 16), imageManager })
+    const fpsPanel = new FpsPanel({ position: new Position(canvas.width - 100, 16) })
     const gameMap = new GameMap({ viewport })
     scene.addObject(rect1)
     scene.addObject(rect2)
@@ -102,6 +104,7 @@ export class SceneManager {
     scene.addPanel(scorePanel)
     scene.addPanel(player1Panel)
     scene.addPanel(player2Panel)
+    scene.addPanel(fpsPanel)
     scene.setViewport(viewport)
     scene.setGameMap(gameMap)
     scene.start()

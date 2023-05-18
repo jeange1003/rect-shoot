@@ -6,12 +6,15 @@ import { Panel } from "./panel.js";
 
 export class ScenePanel extends Panel {
   scene: Scene
+  lastTime: number
   constructor(params: { scene: Scene, position: Position }) {
     super(params)
     this.scene = params.scene
+    this.lastTime = Date.now()
   }
   update(): void {
     this.render()
+    this.lastTime = Date.now()
   }
   render() {
     context.save()
@@ -28,7 +31,10 @@ export class ScenePanel extends Panel {
         context.fillText(`Paused`, this.position.x, this.position.y)
         break;
     }
-
+    context.restore()
+    context.save()
+    context.fillStyle = 'red';
+    context.fillText(`FPS: ${Math.floor(1000 / (Date.now() - this.lastTime))}`, this.position.x, this.position.y + 16)
     context.restore()
   }
 }
