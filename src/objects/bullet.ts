@@ -7,6 +7,7 @@ import { Scene } from '../scene.js';
 import { Position } from '../base-types/position.js';
 import { Direction } from '../base-types/direction.js';
 import { Size } from '../base-types/size.js';
+import { Viewport } from '../map/viewport.js';
 
 export class Bullet extends BaseObject {
   color: string;
@@ -20,12 +21,13 @@ export class Bullet extends BaseObject {
   customUpdateFunctions: ((this: Bullet) => boolean)[] = []
   customHurtEnemyFunctions: ((this: Bullet, enemy: Rect) => boolean)[] = []
 
-  constructor(params: { scene: Scene, position: Position, direction: Direction, speed: Speed, color: string, enemys: Rect[], damage: number, force: number }) {
+  constructor(params: { scene: Scene, position: Position, direction: Direction, speed: Speed, color: string, enemys: Rect[], damage: number, force: number, viewport: Viewport }) {
     super({
       scene: params.scene,
       position: params.position,
       size: new Size(params.damage, Math.floor(params.damage / 6)),
-      direction: params.direction
+      direction: params.direction,
+      viewport: params.viewport
     })
     this.speed = params.speed
     this.color = params.color
@@ -70,7 +72,9 @@ export class Bullet extends BaseObject {
     context.lineWidth = 0;
     context.strokeStyle = 'red';
     context.fillStyle = this.color;
-    context.translate(this.position.x, this.position.y)
+    const relativePosition = this.viewport.getPositionInViewport(this.position)
+    context.translate(relativePosition.x, relativePosition.y)
+    // context.translate(this.position.x, this.position.y)
     context.rotate(this.speed.radian)
     context.rect(- this.size.width / 2, - this.size.height / 2, this.size.width, this.size.height)
     context.fill();

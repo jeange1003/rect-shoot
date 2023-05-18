@@ -17,6 +17,7 @@ import { ImageManager } from '../managers/image-manager.js'
 import { SceneStatus } from '../base-types/scene-status.js'
 import { ScenePanel } from '../panels/scene-panel.js'
 import { context } from '../global/context.js'
+import { Viewport } from '../map/viewport.js'
 
 
 export class SceneManager {
@@ -43,6 +44,10 @@ export class SceneManager {
     const settings = new Settings({})
     const gameData = new GameData({ settings })
     const imageManager = new ImageManager()
+    const viewport = new Viewport({
+      leftTopPosition: new Position(0, 0),
+      size: new Size(canvas.width, canvas.height)
+    })
     const rect1 = new Rect({
       name: 'Player1',
       scene: scene,
@@ -58,7 +63,8 @@ export class SceneManager {
       shootSpeed: 2,
       restrictToArea: area1,
       bulletSpeed: 5,
-      gameData
+      gameData,
+      viewport: viewport
     })
     const rect2 = new Rect({
       name: 'Player2',
@@ -75,12 +81,13 @@ export class SceneManager {
       shootSpeed: 2,
       restrictToArea: area1,
       bulletSpeed: 5,
-      gameData
+      gameData,
+      viewport
     })
 
 
-    const rewardManager = new RewardManager({ scene, rects: [rect1, rect2], gameData, settings, imageManager })
-    const aiRectManager = new AiRectManager({ scene, playerRects: [rect1, rect2], gameData })
+    const rewardManager = new RewardManager({ scene, rects: [rect1, rect2], gameData, settings, imageManager, viewport })
+    const aiRectManager = new AiRectManager({ scene, playerRects: [rect1, rect2], gameData, viewport })
     const scorePanel = new ScorePanel({ gameData, position: new Position(canvas.width / 2 - 48, 16) })
     const player1Panel = new PlayerPanel({ rect: rect1, position: new Position(10, 16), imageManager })
     const player2Panel = new PlayerPanel({ rect: rect2, position: new Position(canvas.width / 4, 16), imageManager })

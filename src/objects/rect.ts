@@ -10,6 +10,7 @@ import { BulletEffect } from '../effects/bullet-effect.js';
 import { GameData } from '../game-data.js';
 import { context } from '../global/context.js';
 import { KeyboardStatus } from '../keyboard/keyboard-status.js';
+import { Viewport } from '../map/viewport.js';
 import { Scene } from '../scene.js';
 import { BaseObject } from './base-object.js';
 import { Bullet } from './bullet.js';
@@ -50,13 +51,15 @@ export class Rect extends BaseObject {
     restrictToArea: Area,
     bulletSpeed: number,
     enemys?: Rect[]
-    gameData: GameData
+    gameData: GameData,
+    viewport: Viewport
   }) {
     super({
       scene: params.scene,
       position: params.position,
       size: params.size,
-      direction: params.direction
+      direction: params.direction,
+      viewport: params.viewport
     })
     this.gameData = params.gameData
     this.name = params.name
@@ -176,7 +179,8 @@ export class Rect extends BaseObject {
       color: this.color,
       enemys: this.enemys,
       damage: this.damage,
-      force: 15
+      force: 15,
+      viewport: this.viewport
     })
 
     let afterEffectBullets = this.applyBulletEffect(originBullet)
@@ -189,7 +193,8 @@ export class Rect extends BaseObject {
     context.lineWidth = 0;
     context.strokeStyle = 'red';
     context.fillStyle = this.color;
-    context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2, this.size.width, this.size.height);
+    const relativePosition = this.viewport.getPositionInViewport(this.position)
+    context.rect(relativePosition.x - this.size.width / 2, relativePosition.y - this.size.height / 2, this.size.width, this.size.height);
     context.fill();
   }
   renderHp() {
@@ -197,7 +202,8 @@ export class Rect extends BaseObject {
     context.lineWidth = 0;
     context.strokeStyle = 'green';
     context.fillStyle = this.color;
-    context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2 - 15, this.size.width * (this.hp / this.maxHp), 5);
+    const relativePosition = this.viewport.getPositionInViewport(this.position)
+    context.rect(relativePosition.x - this.size.width / 2, relativePosition.y - this.size.height / 2 - 15, this.size.width * (this.hp / this.maxHp), 5);
     context.fill();
   }
   addEnemy(enemy: Rect) {

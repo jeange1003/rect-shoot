@@ -9,6 +9,7 @@ import { Size } from '../base-types/size.js'
 import { Direction } from '../base-types/direction.js'
 import { Speed } from '../base-types/speed.js'
 import { GameData } from '../game-data.js'
+import { Viewport } from '../map/viewport.js'
 
 export class AiRectManager extends Manager {
   static GenerateInterval = 60 // frame
@@ -16,12 +17,14 @@ export class AiRectManager extends Manager {
   playerRects: Rect[];
   scene: Scene;
   gameData: GameData
-  constructor(params: { scene: Scene, playerRects: Rect[], gameData: GameData }) {
+  viewport: Viewport
+  constructor(params: { scene: Scene, playerRects: Rect[], gameData: GameData, viewport: Viewport }) {
     super()
     this.scene = params.scene
     this.playerRects = params.playerRects
     this.cooldown = AiRectManager.GenerateInterval
     this.gameData = params.gameData
+    this.viewport = params.viewport
   }
   update() {
     this.cooldown--
@@ -51,7 +54,8 @@ export class AiRectManager extends Manager {
         shootSpeed: 2,
         bulletSpeed: (3 + this.gameData.level > 15) ? 15 : 3 + this.gameData.level,
         restrictToArea: area,
-        gameData: this.gameData
+        gameData: this.gameData,
+        viewport: this.viewport
       }
     )
     aiRect.onDead((rect) => {

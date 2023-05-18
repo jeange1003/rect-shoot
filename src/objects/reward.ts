@@ -21,6 +21,7 @@ import { Scene } from "../scene.js";
 import { BaseObject } from "./base-object.js";
 import { Rect } from "./rect.js";
 import rewardImage from '../configs/reward-image.json' assert {type: 'json'}
+import { Viewport } from "../map/viewport.js";
 
 export class Reward extends BaseObject {
   effect: BaseEffect;
@@ -38,7 +39,8 @@ export class Reward extends BaseObject {
     rects: Rect[],
     rewardManager: RewardManager,
     gameData: GameData,
-    imageManager: ImageManager
+    imageManager: ImageManager,
+    viewport: Viewport
   }) {
     super(params)
     this.gameData = params.gameData
