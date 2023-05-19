@@ -35,6 +35,7 @@ export class AiRectManager extends Manager {
   }
   generateAi() {
     const area = new Area({ x1: -999999, x2: 999999, y1: -999999, y2: 999999 })
+    const aiKeyboardStatus = new AiKeyboardStatus({ playerRects: this.playerRects })
     const aiRect = new Rect(
       {
         name: 'AI',
@@ -45,7 +46,7 @@ export class AiRectManager extends Manager {
         ),
         size: new Size(50, 50),
         direction: new Direction(-1, 0),
-        keyboardStatus: new AiKeyboardStatus(),
+        keyboardStatus: aiKeyboardStatus,
         color: 'gray',
         speed: new Speed(2, 2),
         hp: 40 * (1 + this.gameData.level * 0.5),
@@ -58,6 +59,7 @@ export class AiRectManager extends Manager {
         viewport: this.viewport
       }
     )
+    aiKeyboardStatus.controlTarget(aiRect)
     aiRect.onDead((rect) => {
       this.gameData.addScore(Math.pow(rect.level, 2))
     })
