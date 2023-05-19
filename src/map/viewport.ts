@@ -10,6 +10,7 @@ export class Viewport {
   player1Rect?: Rect
   player2Rect?: Rect
   scale = 1
+  playerRects: Rect[] = []
   constructor(params: {
     center: Position,
     size: Size
@@ -45,27 +46,54 @@ export class Viewport {
     this.player2Rect = rect
   }
 
+  setPlayerRects(rects: Rect[]) {
+    this.playerRects = rects
+  }
+
   getCenterOfPlayers() {
-    if (!this.player1Rect || !this.player2Rect) {
+    const alivePlayerRects = this.playerRects.filter(rect => !rect.isDead)
+    if (alivePlayerRects.length === 0) {
       return this.center
     }
-    const position1 = this.player1Rect.position
-    const position2 = this.player2Rect.position
-    return new Position((position1.x + position2.x) / 2, (position1.y + position2.y) / 2)
+    const x = alivePlayerRects.reduce((prev, cur) => {
+      return prev + cur.position.x
+    }, 0) / alivePlayerRects.length
+    const y = alivePlayerRects.reduce((prev, cur) => {
+      return prev + cur.position.y
+    }, 0) / alivePlayerRects.length
+    return new Position(x, y)
+    // if (!this.player1Rect || !this.player2Rect) {
+    //   return this.center
+    // }
+    // const position1 = this.player1Rect.position
+    // const position2 = this.player2Rect.position
+    // return new Position((position1.x + position2.x) / 2, (position1.y + position2.y) / 2)
   }
 
   getDiffDirectionOfPlayers() {
     if (!this.player1Rect || !this.player2Rect) {
       return this.center
     }
+
     const position1 = this.player1Rect.position
     const position2 = this.player2Rect.position
     return position1.substract(position2)
   }
 
-  setScale(diffDirection: Vector2) {
-    let widthScale = Math.abs(diffDirection.x) / (this.originSize.width - 200)
-    let heightScale = Math.abs(diffDirection.y) / (this.originSize.height - 200)
+  setScale() {
+    const aliveRects = this.playerRects.filter(rect => !rect.isDead)
+    if (aliveRects.length <= 1) {
+      this.scale = 1
+      return
+    }
+    let maxX = this.playerRects.reduce((prev, cur) => cur.position.x > prev ? cur.position.x : prev, 0)
+    let minX = this.playerRects.reduce((prev, cur) => cur.position.x < prev ? cur.position.x : prev, 0)
+    let maxY = this.playerRects.reduce((prev, cur) => cur.position.y > prev ? cur.position.y : prev, 0)
+    let minY = this.playerRects.reduce((prev, cur) => cur.position.y < prev ? cur.position.y : prev, 0)
+    let widthScale = (maxX - minX) / (this.originSize.width - 200)
+    let heightScale = (maxY - minY) / (this.originSize.height - 200)
+    // let widthScale = Math.abs(diffDirection.x) / (this.originSize.width - 200)
+    // let heightScale = Math.abs(diffDirection.y) / (this.originSize.height - 200)
     widthScale = widthScale > 1 ? widthScale : 1
     heightScale = heightScale > 1 ? heightScale : 1
     this.scale = widthScale > heightScale ? widthScale : heightScale
@@ -73,6 +101,6 @@ export class Viewport {
 
   update() {
     this.center = this.getCenterOfPlayers()
-    this.setScale(this.getDiffDirectionOfPlayers())
+    this.setScale()
   }
 }

@@ -88,6 +88,7 @@ export class SceneManager {
     })
     viewport.setPlayer1Rect(rect1)
     viewport.setPlayer2Rect(rect2)
+    viewport.setPlayerRects([rect1, rect2])
 
 
     const rewardManager = new RewardManager({ scene, rects: [rect1, rect2], gameData, settings, imageManager, viewport })
