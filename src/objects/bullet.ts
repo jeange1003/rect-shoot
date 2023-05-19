@@ -12,7 +12,7 @@ import { Viewport } from '../map/viewport.js';
 export class Bullet extends BaseObject {
   color: string;
   damage: number;
-  enemys: Rect[];
+  enemies: Rect[];
   isDead: boolean = false;
   speed: Speed;
   force: number;
@@ -20,8 +20,20 @@ export class Bullet extends BaseObject {
   meta: Map<string, any>
   customUpdateFunctions: ((this: Bullet) => boolean)[] = []
   customHurtEnemyFunctions: ((this: Bullet, enemy: Rect) => boolean)[] = []
+  belongToRect: Rect
 
-  constructor(params: { scene: Scene, position: Position, direction: Direction, speed: Speed, color: string, enemys: Rect[], damage: number, force: number, viewport: Viewport }) {
+  constructor(params: {
+    scene: Scene,
+    position: Position,
+    direction: Direction,
+    speed: Speed,
+    color: string,
+    enemys: Rect[],
+    damage: number,
+    force: number,
+    viewport: Viewport,
+    belongToRect: Rect
+  }) {
     super({
       scene: params.scene,
       position: params.position,
@@ -31,8 +43,9 @@ export class Bullet extends BaseObject {
     })
     this.speed = params.speed
     this.color = params.color
-    this.enemys = params.enemys
+    this.enemies = params.enemys
     this.damage = params.damage
+    this.belongToRect = params.belongToRect
     if (isNaN(params.force)) {
       throw new Error('invalid force')
     }
@@ -89,7 +102,7 @@ export class Bullet extends BaseObject {
     //   || this.position.y < this.viewport.center.y - canvas.height / 2 - this.borderBufferLength
   }
   checkCollision() {
-    for (let enemy of this.enemys) {
+    for (let enemy of this.enemies) {
       if (!enemy.isDead
         && this.position.x > enemy.position.x - enemy.size.width
         && this.position.x < enemy.position.x + enemy.size.width

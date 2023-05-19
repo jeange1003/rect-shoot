@@ -13,7 +13,7 @@ export class PiercingBulletEffect extends BulletEffect {
       bullet.meta.set('life', 2)
       bullet.addCustomHurtEnemy(function (this: Bullet, enemy: Rect) {
         enemy.hurt(this.damage)
-        this.enemys = this.enemys.filter(e => e !== enemy)
+        this.enemies = this.enemies.filter(e => e !== enemy)
         const life = this.meta.get('life') as number
         this.meta.set('life', life - 1)
         if (life - 1 <= 0) {

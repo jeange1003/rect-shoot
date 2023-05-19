@@ -190,7 +190,8 @@ export class Rect extends BaseObject {
       enemys: this.enemys,
       damage: this.damage,
       force: 15,
-      viewport: this.viewport
+      viewport: this.viewport,
+      belongToRect: this
     })
 
     let afterEffectBullets = this.applyBulletEffect(originBullet)
