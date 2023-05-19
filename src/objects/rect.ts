@@ -204,6 +204,9 @@ export class Rect extends BaseObject {
     }
   }
   renderSelf() {
+    if (this.viewport.isObjectOutOfViewport(this)) {
+      return
+    }
     context.save()
     context.beginPath();
     context.lineWidth = 0;
@@ -217,6 +220,9 @@ export class Rect extends BaseObject {
     context.restore()
   }
   renderHp() {
+    if (this.viewport.isObjectOutOfViewport(this)) {
+      return
+    }
     context.save()
     context.beginPath();
     context.lineWidth = 0;

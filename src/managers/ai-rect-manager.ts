@@ -41,14 +41,14 @@ export class AiRectManager extends Manager {
         name: 'AI',
         scene: this.scene,
         position: new Position(
-          this.viewport.center.x + Math.floor(Math.random() * this.viewport.originSize.width / 4),
-          this.viewport.center.y + Math.floor(this.viewport.originSize.height * Math.random() / 4)
+          this.viewport.center.x + (Math.random() > 0.5 ? 1 : -1) * this.viewport.originSize.width / 2,
+          this.viewport.center.y + (Math.random() > 0.5 ? 1 : -1) * this.viewport.originSize.height / 2
         ),
         size: new Size(50, 50),
         direction: new Direction(-1, 0),
         keyboardStatus: aiKeyboardStatus,
         color: 'gray',
-        speed: new Speed(2, 2),
+        speed: new Speed(1, 1),
         hp: 40 * (1 + this.gameData.level * 0.5),
         maxHp: 40 * (1 + this.gameData.level * 0.5),
         damage: 20,
