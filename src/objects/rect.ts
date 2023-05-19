@@ -134,16 +134,25 @@ export class Rect extends BaseObject {
   }
   changePosition() {
     const newPosition = this.position.clone()
+    const forceDirection = new Direction(0, 0)
     if (this.keyboardStatus.isLeftPressed) {
       newPosition.x = this.position.x - this.speed.x
+      forceDirection.x = -1
     } else if (this.keyboardStatus.isRightPressed) {
       newPosition.x = this.position.x + this.speed.x
+      forceDirection.x = 1
     }
 
     if (this.keyboardStatus.isUpPressed) {
       newPosition.y = this.position.y - this.speed.y
+      forceDirection.y = -1
     } else if (this.keyboardStatus.isDownPressed) {
       newPosition.y = this.position.y + this.speed.y
+      forceDirection.y = 1
+    }
+    if (forceDirection.length > 0) {
+      this.direction.x = forceDirection.x
+      this.direction.y = forceDirection.y
     }
     if (this.restrictToArea.isInArea(newPosition)) {
       this.position = newPosition
