@@ -39,18 +39,26 @@ export class GameMap {
     context.save()
     context.beginPath();
     // https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix/DOMMatrix
+    const translateX = -(this.viewport.center.x);
+    const translateY = -(this.viewport.center.y);
     const scale = 1 / this.viewport.scale
-    const angle = 0;
-    this.pattern.setTransform(new DOMMatrix(
-      [
-        Math.cos(angle) * scale,
-        Math.sin(angle) * scale,
-        -Math.sin(angle) * scale,
-        Math.cos(angle) * scale,
-        -this.viewport.center.x, -this.viewport.center.y
-      ]
-    ))
-
+    // const angle = 0;
+    let domMatrix = new DOMMatrix()
+    // I don't known how is it going, just AI told me to do this.
+    domMatrix = domMatrix.translate(this.viewport.originSize.width / 2, this.viewport.originSize.height / 2)
+    domMatrix = domMatrix.scale(scale)
+    domMatrix = domMatrix.translate(translateX, translateY)
+    this.pattern.setTransform(domMatrix)
+    // this.pattern.setTransform(new DOMMatrix(
+    //   [
+    //     Math.cos(angle) * scale,
+    //     Math.sin(angle) * scale,
+    //     -Math.sin(angle) * scale,
+    //     Math.cos(angle) * scale,
+    //     translateX,
+    //     translateY
+    //   ]
+    // ))
     context.fillStyle = this.pattern;
     context.fillRect(0, 0, canvas.width, canvas.height);
     context.restore()

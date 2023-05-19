@@ -19,16 +19,16 @@ export class Viewport {
   }
 
   get size(): Size {
-    return new Size(this.size.width * this.scale, this.size.height * this.scale)
+    return new Size(this.originSize.width * this.scale, this.originSize.height * this.scale)
   }
 
   isObjectOutOfViewport(object: BaseObject) {
     const halfWidth = this.originSize.width / 2
     const halfHeight = this.originSize.height / 2
-    return object.position.x < (this.center.x - halfWidth) * this.scale
-      || object.position.y < (this.center.y - halfHeight) * this.scale
-      || object.position.x > (this.center.x + halfWidth) * this.scale
-      || object.position.y > (this.center.y + halfHeight) * this.scale
+    return object.position.x < this.center.x - halfWidth * this.scale
+      || object.position.y < this.center.y - halfHeight * this.scale
+      || object.position.x > this.center.x + halfWidth * this.scale
+      || object.position.y > this.center.y + halfHeight * this.scale
   }
 
   getPositionInViewport(position: Position) {
