@@ -22,7 +22,7 @@ export class Rect extends BaseObject {
   name: string;
   color: string;
   cooldown: number;
-  enemys: Rect[];
+  enemies: Rect[];
   hp: number;
   isDead: boolean = false;
   keyboardStatus: KeyboardStatus;
@@ -50,7 +50,7 @@ export class Rect extends BaseObject {
     shootSpeed: number,
     restrictToArea: Area,
     bulletSpeed: number,
-    enemys?: Rect[]
+    enemies?: Rect[]
     gameData: GameData,
     viewport: Viewport
   }) {
@@ -72,7 +72,7 @@ export class Rect extends BaseObject {
     this.damage = params.damage
     this.shootSpeed = params.shootSpeed
     this.restrictToArea = params.restrictToArea
-    this.enemys = params.enemys || []
+    this.enemies = params.enemies || []
     this.bulletSpeed = params.bulletSpeed
     this.level = params.gameData.level
   }
@@ -126,6 +126,10 @@ export class Rect extends BaseObject {
   update() {
     this.changePosition()
     this.shadeEffect()
+    const enemy = this.checkCollision()
+    if (enemy) {
+      this.hurtEnemy(enemy)
+    }
     this.render()
   }
   render() {
@@ -187,7 +191,7 @@ export class Rect extends BaseObject {
         this.direction.y * this.bulletSpeed
       ),
       color: this.color,
-      enemys: this.enemys,
+      enemys: this.enemies,
       damage: this.damage,
       force: 15,
       viewport: this.viewport,
@@ -226,10 +230,10 @@ export class Rect extends BaseObject {
     context.restore()
   }
   addEnemy(enemy: Rect) {
-    this.enemys.push(enemy)
+    this.enemies.push(enemy)
   }
   removeEnemy(enemy: Rect) {
-    this.enemys = this.enemys.filter((e: Rect) => e !== enemy)
+    this.enemies = this.enemies.filter((e: Rect) => e !== enemy)
   }
   hurt(damage: number) {
     if (this.isDead) {
@@ -238,7 +242,7 @@ export class Rect extends BaseObject {
     this.hp -= damage
     if (this.hp <= 0) {
       this.dead()
-      this.enemys.forEach((e: Rect) => e.removeEnemy(this))
+      this.enemies.forEach((e: Rect) => e.removeEnemy(this))
     }
   }
   onDead(callback: (rect: Rect) => void) {
@@ -249,5 +253,31 @@ export class Rect extends BaseObject {
     for (let callback of this.onDeadCallbacks) {
       callback(this)
     }
+  }
+
+  checkCollision() {
+    for (let enemy of this.enemies) {
+      if (!enemy.isDead
+        && this.position.x > enemy.position.x - enemy.size.width
+        && this.position.x < enemy.position.x + enemy.size.width
+        && this.position.y > enemy.position.y - enemy.size.height
+        && this.position.y < enemy.position.y + enemy.size.height) {
+        return enemy
+      }
+    }
+  }
+
+  hurtEnemy(enemy: Rect) {
+    // let customResult = true
+    // if (this.customHurtEnemyFunctions.length > 0) {
+    //   for (let func of this.customHurtEnemyFunctions) {
+    //     customResult = customResult && func.call(this, enemy)
+    //     if (!customResult) {
+    //       return
+    //     }
+    //   }
+    // }
+    enemy.hurt(0.5)
+    this.hurt(0.5)
   }
 }
