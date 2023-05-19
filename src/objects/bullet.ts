@@ -73,8 +73,9 @@ export class Bullet extends BaseObject {
     context.strokeStyle = 'red';
     context.fillStyle = this.color;
     const relativePosition = this.viewport.getPositionInViewport(this.position)
+    const scale = 1 / this.viewport.scale
+    context.scale(scale, scale)
     context.translate(relativePosition.x, relativePosition.y)
-    // context.translate(this.position.x, this.position.y)
     context.rotate(this.speed.radian)
     context.rect(- this.size.width / 2, - this.size.height / 2, this.size.width, this.size.height)
     context.fill();

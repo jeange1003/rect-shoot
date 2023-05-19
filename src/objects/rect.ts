@@ -165,12 +165,13 @@ export class Rect extends BaseObject {
     this.bulletEffects = this.bulletEffects.filter(effect => effect.remainTime > 0)
   }
   fire() {
+    const position = new Position(
+      this.position.x + this.direction.x * this.size.width + this.direction.x * 20,
+      this.position.y + this.direction.y * this.size.height + this.direction.y * 20
+    )
     const originBullet = new Bullet({
       scene: this.scene,
-      position: new Position(
-        this.position.x + this.direction.x * this.size.width + this.direction.x * 20,
-        this.position.y + this.direction.y * this.size.height + this.direction.y * 20
-      ),
+      position,
       direction: new Direction(this.direction.x, this.direction.y),
       speed: new Speed(
         this.direction.x * this.bulletSpeed,
@@ -189,22 +190,30 @@ export class Rect extends BaseObject {
     }
   }
   renderSelf() {
+    context.save()
     context.beginPath();
     context.lineWidth = 0;
     context.strokeStyle = 'red';
     context.fillStyle = this.color;
     const relativePosition = this.viewport.getPositionInViewport(this.position)
+    const scale = 1 / this.viewport.scale
+    context.scale(scale, scale)
     context.rect(relativePosition.x - this.size.width / 2, relativePosition.y - this.size.height / 2, this.size.width, this.size.height);
     context.fill();
+    context.restore()
   }
   renderHp() {
+    context.save()
     context.beginPath();
     context.lineWidth = 0;
     context.strokeStyle = 'green';
     context.fillStyle = this.color;
     const relativePosition = this.viewport.getPositionInViewport(this.position)
+    const scale = 1 / this.viewport.scale
+    context.scale(scale, scale)
     context.rect(relativePosition.x - this.size.width / 2, relativePosition.y - this.size.height / 2 - 15, this.size.width * (this.hp / this.maxHp), 5);
     context.fill();
+    context.restore()
   }
   addEnemy(enemy: Rect) {
     this.enemys.push(enemy)

@@ -47,17 +47,17 @@ export class SceneManager {
     const gameData = new GameData({ settings })
     const imageManager = new ImageManager()
     const viewport = new Viewport({
-      leftTopPosition: new Position(0, 0),
+      center: new Position(0, 0),
       size: new Size(canvas.width, canvas.height)
     })
     const rect1 = new Rect({
       name: 'Player1',
       scene: scene,
-      position: new Position(100, canvas.height / 3),
+      position: new Position(0, canvas.height / 3),
       direction: new Direction(1, 0),
       size: new Size(40, 40),
       keyboardStatus: keyboardStatus1,
-      color: 'blue',
+      color: '#bbbbff',
       speed: new Speed(5, 5),
       hp: 100,
       maxHp: 100,
@@ -71,11 +71,11 @@ export class SceneManager {
     const rect2 = new Rect({
       name: 'Player2',
       scene: scene,
-      position: new Position(100, canvas.height / 3 * 2),
+      position: new Position(0, canvas.height / 3 * 2),
       direction: new Direction(1, 0),
       size: new Size(40, 40),
       keyboardStatus: keyboardStatus2,
-      color: 'red',
+      color: '#ffbbbb',
       speed: new Speed(5, 5),
       hp: 100,
       maxHp: 100,

@@ -49,7 +49,10 @@ export class RewardManager extends Manager {
   generateReward() {
     const reward = new Reward({
       scene: this.scene,
-      position: new Position(this.viewport.center.x + Math.floor(Math.random() * this.viewport.size.width * 1 / 4), this.viewport.center.y + Math.floor(Math.random() * this.viewport.size.height / 4)),
+      position: new Position(
+        this.viewport.center.x + Math.floor(Math.random() * this.viewport.originSize.width * 1 / 4),
+        this.viewport.center.y + Math.floor(Math.random() * this.viewport.originSize.height / 4)
+      ).scale(this.viewport.scale),
       size: new Size(20, 20),
       direction: new Direction(0, 0),
       rects: this.rects,

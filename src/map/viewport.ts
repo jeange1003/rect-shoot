@@ -1,32 +1,40 @@
 import { Position } from "../base-types/position.js";
 import { Size } from "../base-types/size.js";
+import { Vector2 } from "../base-types/vector2.js";
 import { BaseObject } from "../objects/base-object.js";
 import { Rect } from "../objects/rect.js";
 
 export class Viewport {
   center: Position
-  size: Size
+  originSize: Size
   player1Rect?: Rect
   player2Rect?: Rect
+  scale = 1
   constructor(params: {
-    leftTopPosition: Position,
+    center: Position,
     size: Size
   }) {
-    this.center = params.leftTopPosition;
-    this.size = params.size;
+    this.center = params.center;
+    this.originSize = params.size;
+  }
+
+  get size(): Size {
+    return new Size(this.size.width * this.scale, this.size.height * this.scale)
   }
 
   isObjectOutOfViewport(object: BaseObject) {
-    const halfWidth = this.size.width / 2
-    const halfHeight = this.size.height / 2
-    return object.position.x < this.center.x - halfWidth
-      || object.position.y < this.center.y - halfHeight
-      || object.position.x > this.center.x + halfWidth
-      || object.position.y > this.center.y + halfHeight
+    const halfWidth = this.originSize.width / 2
+    const halfHeight = this.originSize.height / 2
+    return object.position.x < (this.center.x - halfWidth) * this.scale
+      || object.position.y < (this.center.y - halfHeight) * this.scale
+      || object.position.x > (this.center.x + halfWidth) * this.scale
+      || object.position.y > (this.center.y + halfHeight) * this.scale
   }
 
   getPositionInViewport(position: Position) {
-    return new Position(position.x - (this.center.x - this.size.width / 2), position.y - (this.center.y - this.size.height / 2))
+    return new Position(
+      (position.x - (this.center.x - this.originSize.width * this.scale / 2)),
+      (position.y - (this.center.y - this.originSize.height * this.scale / 2)))
   }
 
   setPlayer1Rect(rect: Rect) {
@@ -46,7 +54,25 @@ export class Viewport {
     return new Position((position1.x + position2.x) / 2, (position1.y + position2.y) / 2)
   }
 
+  getDiffDirectionOfPlayers() {
+    if (!this.player1Rect || !this.player2Rect) {
+      return this.center
+    }
+    const position1 = this.player1Rect.position
+    const position2 = this.player2Rect.position
+    return position1.substract(position2)
+  }
+
+  setScale(diffDirection: Vector2) {
+    let widthScale = Math.abs(diffDirection.x) / (this.originSize.width - 200)
+    let heightScale = Math.abs(diffDirection.y) / (this.originSize.height - 200)
+    widthScale = widthScale > 1 ? widthScale : 1
+    heightScale = heightScale > 1 ? heightScale : 1
+    this.scale = widthScale > heightScale ? widthScale : heightScale
+  }
+
   update() {
     this.center = this.getCenterOfPlayers()
+    this.setScale(this.getDiffDirectionOfPlayers())
   }
 }

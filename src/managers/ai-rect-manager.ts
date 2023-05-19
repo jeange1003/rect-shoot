@@ -40,8 +40,8 @@ export class AiRectManager extends Manager {
         name: 'AI',
         scene: this.scene,
         position: new Position(
-          this.viewport.center.x + Math.floor(Math.random() * this.viewport.size.width / 4),
-          this.viewport.center.y + Math.floor(this.viewport.size.height * Math.random() / 4)
+          this.viewport.center.x + Math.floor(Math.random() * this.viewport.originSize.width / 4),
+          this.viewport.center.y + Math.floor(this.viewport.originSize.height * Math.random() / 4)
         ),
         size: new Size(50, 50),
         direction: new Direction(-1, 0),

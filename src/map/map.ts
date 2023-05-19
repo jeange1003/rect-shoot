@@ -12,7 +12,8 @@ export class GameMap {
     this.viewport = params.viewport
     const img = new Image();
 
-    img.src = "assets/images/map/background.jpg";
+    img.src = "assets/images/map/background-2.png";
+    // img.src = "assets/images/map/background.jpg";
     // Only use the image after it's loaded
     img.onload = () => {
       const pattern = context.createPattern(img, "repeat") as CanvasPattern;
@@ -35,10 +36,23 @@ export class GameMap {
     if (!this.pattern) {
       return
     }
+    context.save()
     context.beginPath();
     // https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix/DOMMatrix
-    this.pattern.setTransform(new DOMMatrix([1, 0, 0, 1, -this.viewport.center.x, -this.viewport.center.y]))
+    const scale = 1 / this.viewport.scale
+    const angle = 0;
+    this.pattern.setTransform(new DOMMatrix(
+      [
+        Math.cos(angle) * scale,
+        Math.sin(angle) * scale,
+        -Math.sin(angle) * scale,
+        Math.cos(angle) * scale,
+        -this.viewport.center.x, -this.viewport.center.y
+      ]
+    ))
+
     context.fillStyle = this.pattern;
     context.fillRect(0, 0, canvas.width, canvas.height);
+    context.restore()
   }
 }
